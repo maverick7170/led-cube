@@ -68,7 +68,11 @@ endif()
 if (APPLE)
 	add_definitions(-DAPPLE)
 endif()
-add_executable(led_cube_simulator led_cube_simulator.cpp udp_server.cpp render_thread.cpp virtual_terminal/py.cpp)
+if (WIN32)
+	set(ICON "resources/led_cube.rc")
+endif()
+
+add_executable(led_cube_simulator led_cube_simulator.cpp udp_server.cpp render_thread.cpp virtual_terminal/py.cpp ${ICON})
 target_include_directories(led_cube_simulator PRIVATE ${PYTHON_INCLUDE_DIRS} ${SFML-INCLUDES} ${GLEW-INCLUDES} ${GLM})
 target_link_libraries(led_cube_simulator ${SFML-GRAPHICS} ${SFML-WINDOW} ${SFML-SYSTEM} ${SFML-NETWORK} ${OPENGL} ${GLEW} ${PYTHON_LIBRARIES} ${PTHREAD})
 
