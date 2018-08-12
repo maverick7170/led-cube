@@ -4,7 +4,7 @@ cube = Cube()
 all_pixels = []
 image_count = 12
 for ii in range(1,image_count+1):
-	filename = '../resources/mario/mario_' + str(ii) + '.png'
+	filename = '../../resources/mario/mario_' + str(ii) + '.png'
 	with open(filename,'rb') as fid:
 		fid_png = png.Reader(file=fid)
 		raw_data = fid_png.read()
