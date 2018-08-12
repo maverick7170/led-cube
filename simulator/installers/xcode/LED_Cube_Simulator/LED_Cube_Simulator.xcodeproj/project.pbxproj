@@ -1,0 +1,429 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BB083DFE211E42A500F0A321 /* render_thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB083DFB211E42A500F0A321 /* render_thread.cpp */; };
+		BB083DFF211E42A500F0A321 /* udp_server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB083DFC211E42A500F0A321 /* udp_server.cpp */; };
+		BB083E00211E42A500F0A321 /* led_cube_simulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB083DFD211E42A500F0A321 /* led_cube_simulator.cpp */; };
+		BB083E06211E431200F0A321 /* UbuntuMono-R.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB083E03211E431200F0A321 /* UbuntuMono-R.ttf */; };
+		BB083E07211E431200F0A321 /* mario in Resources */ = {isa = PBXBuildFile; fileRef = BB083E04211E431200F0A321 /* mario */; };
+		BB083E08211E431200F0A321 /* texture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BB083E05211E431200F0A321 /* texture.jpg */; };
+		BB083E0A211E4E0C00F0A321 /* py.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB083E09211E4E0C00F0A321 /* py.cpp */; };
+		BB083E34211E528D00F0A321 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = BB083E33211E528D00F0A321 /* shaders */; };
+		BB083E38211E556D00F0A321 /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = BB083E37211E556D00F0A321 /* ResourcePath.mm */; };
+		BB083E3E211F03EB00F0A321 /* sfml-audio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB083E39211F03EB00F0A321 /* sfml-audio.framework */; };
+		BB083E3F211F03EB00F0A321 /* sfml-graphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB083E3A211F03EB00F0A321 /* sfml-graphics.framework */; };
+		BB083E40211F03EB00F0A321 /* sfml-network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB083E3B211F03EB00F0A321 /* sfml-network.framework */; };
+		BB083E41211F03EB00F0A321 /* sfml-system.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB083E3C211F03EB00F0A321 /* sfml-system.framework */; };
+		BB083E42211F03EB00F0A321 /* sfml-window.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB083E3D211F03EB00F0A321 /* sfml-window.framework */; };
+		BBABA86221200B0900F423F7 /* python in Resources */ = {isa = PBXBuildFile; fileRef = BBABA86121200B0900F423F7 /* python */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BB083DE3211E420200F0A321 /* LED_Cube_Simulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LED_Cube_Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB083DE7211E420200F0A321 /* LED_Cube_Simulator-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LED_Cube_Simulator-Info.plist"; sourceTree = "<group>"; };
+		BB083DFB211E42A500F0A321 /* render_thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = render_thread.cpp; path = ../../../../render_thread.cpp; sourceTree = "<group>"; };
+		BB083DFC211E42A500F0A321 /* udp_server.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = udp_server.cpp; path = ../../../../udp_server.cpp; sourceTree = "<group>"; };
+		BB083DFD211E42A500F0A321 /* led_cube_simulator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = led_cube_simulator.cpp; path = ../../../../led_cube_simulator.cpp; sourceTree = "<group>"; };
+		BB083E03211E431200F0A321 /* UbuntuMono-R.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "UbuntuMono-R.ttf"; path = "../../../../resources/UbuntuMono-R.ttf"; sourceTree = "<group>"; };
+		BB083E04211E431200F0A321 /* mario */ = {isa = PBXFileReference; lastKnownFileType = folder; name = mario; path = ../../../../resources/mario; sourceTree = "<group>"; };
+		BB083E05211E431200F0A321 /* texture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = texture.jpg; path = ../../../../resources/texture.jpg; sourceTree = "<group>"; };
+		BB083E09211E4E0C00F0A321 /* py.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = py.cpp; path = ../../../../virtual_terminal/py.cpp; sourceTree = "<group>"; };
+		BB083E0C211E4F9600F0A321 /* terminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = terminal.h; path = ../../../../virtual_terminal/terminal.h; sourceTree = "<group>"; };
+		BB083E0D211E4F9600F0A321 /* text_display.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = text_display.h; path = ../../../../virtual_terminal/text_display.h; sourceTree = "<group>"; };
+		BB083E0E211E4FA600F0A321 /* drawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = drawable.h; path = ../../../../opengl/drawable.h; sourceTree = "<group>"; };
+		BB083E0F211E4FA600F0A321 /* view_cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = view_cube.h; path = ../../../../opengl/view_cube.h; sourceTree = "<group>"; };
+		BB083E10211E4FA600F0A321 /* led_cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = led_cube.h; path = ../../../../opengl/led_cube.h; sourceTree = "<group>"; };
+		BB083E33211E528D00F0A321 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../../../../resources/shaders; sourceTree = "<group>"; };
+		BB083E37211E556D00F0A321 /* ResourcePath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ResourcePath.mm; path = ../../ResourcePath.mm; sourceTree = "<group>"; };
+		BB083E39211F03EB00F0A321 /* sfml-audio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-audio.framework"; path = "/Library/Frameworks/sfml-audio.framework"; sourceTree = "<absolute>"; };
+		BB083E3A211F03EB00F0A321 /* sfml-graphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-graphics.framework"; path = "/Library/Frameworks/sfml-graphics.framework"; sourceTree = "<absolute>"; };
+		BB083E3B211F03EB00F0A321 /* sfml-network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-network.framework"; path = "/Library/Frameworks/sfml-network.framework"; sourceTree = "<absolute>"; };
+		BB083E3C211F03EB00F0A321 /* sfml-system.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-system.framework"; path = "/Library/Frameworks/sfml-system.framework"; sourceTree = "<absolute>"; };
+		BB083E3D211F03EB00F0A321 /* sfml-window.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-window.framework"; path = "/Library/Frameworks/sfml-window.framework"; sourceTree = "<absolute>"; };
+		BBABA86121200B0900F423F7 /* python */ = {isa = PBXFileReference; lastKnownFileType = folder; name = python; path = ../../../../examples/python; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BB083DDF211E420200F0A321 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB083E3E211F03EB00F0A321 /* sfml-audio.framework in Frameworks */,
+				BB083E3F211F03EB00F0A321 /* sfml-graphics.framework in Frameworks */,
+				BB083E40211F03EB00F0A321 /* sfml-network.framework in Frameworks */,
+				BB083E41211F03EB00F0A321 /* sfml-system.framework in Frameworks */,
+				BB083E42211F03EB00F0A321 /* sfml-window.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BB083DD9211E420200F0A321 = {
+			isa = PBXGroup;
+			children = (
+				BB083E39211F03EB00F0A321 /* sfml-audio.framework */,
+				BB083E3A211F03EB00F0A321 /* sfml-graphics.framework */,
+				BB083E3B211F03EB00F0A321 /* sfml-network.framework */,
+				BB083E3C211F03EB00F0A321 /* sfml-system.framework */,
+				BB083E3D211F03EB00F0A321 /* sfml-window.framework */,
+				BB083DE5211E420200F0A321 /* LED_Cube_Simulator */,
+				BB083DE4211E420200F0A321 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BB083DE4211E420200F0A321 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BB083DE3211E420200F0A321 /* LED_Cube_Simulator.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BB083DE5211E420200F0A321 /* LED_Cube_Simulator */ = {
+			isa = PBXGroup;
+			children = (
+				BB083E37211E556D00F0A321 /* ResourcePath.mm */,
+				BB083E0B211E4F7A00F0A321 /* Headers */,
+				BB083E09211E4E0C00F0A321 /* py.cpp */,
+				BB083DFB211E42A500F0A321 /* render_thread.cpp */,
+				BB083DFC211E42A500F0A321 /* udp_server.cpp */,
+				BB083DFD211E42A500F0A321 /* led_cube_simulator.cpp */,
+				BB083DED211E420200F0A321 /* Resources */,
+				BB083DE6211E420200F0A321 /* Supporting Files */,
+			);
+			path = LED_Cube_Simulator;
+			sourceTree = "<group>";
+		};
+		BB083DE6211E420200F0A321 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BB083DE7211E420200F0A321 /* LED_Cube_Simulator-Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BB083DED211E420200F0A321 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BBABA86121200B0900F423F7 /* python */,
+				BB083E33211E528D00F0A321 /* shaders */,
+				BB083E03211E431200F0A321 /* UbuntuMono-R.ttf */,
+				BB083E04211E431200F0A321 /* mario */,
+				BB083E05211E431200F0A321 /* texture.jpg */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		BB083E0B211E4F7A00F0A321 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				BB083E0E211E4FA600F0A321 /* drawable.h */,
+				BB083E0F211E4FA600F0A321 /* view_cube.h */,
+				BB083E10211E4FA600F0A321 /* led_cube.h */,
+				BB083E0C211E4F9600F0A321 /* terminal.h */,
+				BB083E0D211E4F9600F0A321 /* text_display.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BB083DE2211E420200F0A321 /* LED_Cube_Simulator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BB083DF8211E420300F0A321 /* Build configuration list for PBXNativeTarget "LED_Cube_Simulator" */;
+			buildPhases = (
+				BB083DDE211E420200F0A321 /* Sources */,
+				BB083DDF211E420200F0A321 /* Frameworks */,
+				BB083DE0211E420200F0A321 /* Resources */,
+				BB083DE1211E420200F0A321 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LED_Cube_Simulator;
+			productName = LED_Cube_Simulator;
+			productReference = BB083DE3211E420200F0A321 /* LED_Cube_Simulator.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BB083DDA211E420200F0A321 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "University of Florida";
+				TargetAttributes = {
+					BB083DE2211E420200F0A321 = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+				};
+			};
+			buildConfigurationList = BB083DDD211E420200F0A321 /* Build configuration list for PBXProject "LED_Cube_Simulator" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BB083DD9211E420200F0A321;
+			productRefGroup = BB083DE4211E420200F0A321 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BB083DE2211E420200F0A321 /* LED_Cube_Simulator */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BB083DE0211E420200F0A321 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBABA86221200B0900F423F7 /* python in Resources */,
+				BB083E08211E431200F0A321 /* texture.jpg in Resources */,
+				BB083E34211E528D00F0A321 /* shaders in Resources */,
+				BB083E06211E431200F0A321 /* UbuntuMono-R.ttf in Resources */,
+				BB083E07211E431200F0A321 /* mario in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BB083DE1211E420200F0A321 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This shell script simply copies required SFML dylibs/frameworks into the application bundle frameworks folder.\n# If you're using static libraries (which is not recommended) you should remove this script from your project.\n\n# SETTINGS\nCMAKE_INSTALL_FRAMEWORK_PREFIX=\"/Library/Frameworks\"\nCMAKE_INSTALL_LIB_PREFIX=\"/usr/local/lib\"\nFRAMEWORKS_FULL_PATH=\"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH/\"\n\n# Are we building a project that uses frameworks or dylibs?\ncase \"$SFML_BINARY_TYPE\" in\n    DYLIBS)\n        frameworks=\"false\"\n        ;;\n    *)\n        frameworks=\"true\"\n        ;;\nesac\n\n# Echoes to stderr\nerror () # $* message to display\n{\n    echo $* 1>&2\n    exit 2\n}\n\nassert () # $1 is a boolean, $2...N is an error message\n{\n    if [ $# -lt 2 ]\n    then\n        error \"Internal error in assert: not enough args\"\n    fi\n\n    if [ $1 -ne 0 ]\n    then\n        shift\n        error \"$*\"\n    fi\n}\n\nforce_remove () # $@ is some paths\n{\n    test $# -ge 1\n    assert $? \"force_remove() requires at least one parameter\"\n    rm -fr $@\n    assert $? \"couldn't remove $@\"\n}\n\ncopy () # $1 is a source, $2 is a destination\n{\n    test $# -eq 2\n    assert $? \"copy() requires two parameters\"\n    ditto \"$1\" \"$2\"\n    assert $? \"couldn't copy $1 to $2\"\n}\n\nrequire () # $1 is a SFML module like 'system' or 'audio'\n{\n    dest=\"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH/\"\n\n    if [ -z \"$1\" ]\n    then\n        error \"require() requires one parameter!\"\n    else\n        # clean potentially old stuff\n        force_remove \"$dest/libsfml-$1\"*\n        force_remove \"$dest/sfml-$1.framework\"\n\n        # copy SFML libraries\n        if [ \"$frameworks\" = \"true\" ]\n        then\n            source=\"$CMAKE_INSTALL_FRAMEWORK_PREFIX/sfml-$1.framework\"\n            target=\"sfml-$1.framework\"\n        elif [ \"$SFML_LINK_DYLIBS_SUFFIX\" = \"-d\" ]\n        then\n            source=\"$CMAKE_INSTALL_LIB_PREFIX/libsfml-$1-d.dylib\"\n            target=\"`readlink $source`\"\n        else\n            source=\"$CMAKE_INSTALL_LIB_PREFIX/libsfml-$1.dylib\"\n            target=\"`readlink $source`\"\n        fi\n\n        copy \"$source\" \"$dest/$target\"\n\n        # copy extra dependencies\n        if [ \"$1\" = \"audio\" ]\n        then\n            # copy \"FLAC\" \"ogg\" \"vorbis\" \"vorbisenc\" \"vorbisfile\" \"OpenAL\" frameworks too\n            for f in \"FLAC\" \"ogg\" \"vorbis\" \"vorbisenc\" \"vorbisfile\" \"OpenAL\"\n            do\n                copy \"$CMAKE_INSTALL_FRAMEWORK_PREFIX/$f.framework\" \"$dest/$f.framework\"\n            done\n        elif [ \"$1\" = \"graphics\" ]\n        then\n            copy \"$CMAKE_INSTALL_FRAMEWORK_PREFIX/freetype.framework\" \"$dest/freetype.framework\"\n        fi\n    fi\n}\n\nif [ -n \"$SFML_SYSTEM\" ]\nthen\n    require \"system\"\nfi\n\nif [ -n \"$SFML_AUDIO\" ]\nthen\n    require \"audio\"\nfi\n\nif [ -n \"$SFML_NETWORK\" ]\nthen\n    require \"network\"\nfi\n\nif [ -n \"$SFML_WINDOW\" ]\nthen\n    require \"window\"\nfi\n\nif [ -n \"$SFML_GRAPHICS\" ]\nthen\n    require \"graphics\"\nfi\n\n                ";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BB083DDE211E420200F0A321 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB083E0A211E4E0C00F0A321 /* py.cpp in Sources */,
+				BB083DFF211E42A500F0A321 /* udp_server.cpp in Sources */,
+				BB083E38211E556D00F0A321 /* ResourcePath.mm in Sources */,
+				BB083E00211E42A500F0A321 /* led_cube_simulator.cpp in Sources */,
+				BB083DFE211E42A500F0A321 /* render_thread.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BB083DF6211E420300F0A321 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				FRAMEWORK_SEARCH_PATHS = (
+					/Library/Frameworks/,
+					"$(inherited)",
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include/,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib/,
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"$(SFML_SYSTEM)",
+					"$(SFML_WINDOW)",
+					"$(SFML_GRAPHICS)",
+					"$(SFML_AUDIO)",
+					"$(SFML_NETWORK)",
+				);
+				SFML_AUDIO = "$(SFML_LINK_PREFIX) sfml-audio$(SFML_LINK_SUFFIX)";
+				SFML_BINARY_TYPE = FRAMEWORKS;
+				SFML_GRAPHICS = "$(SFML_LINK_PREFIX) sfml-graphics$(SFML_LINK_SUFFIX)";
+				SFML_LINK_DYLIBS_PREFIX = "-l";
+				SFML_LINK_DYLIBS_SUFFIX = "";
+				SFML_LINK_FRAMEWORKS_PREFIX = "-framework";
+				SFML_LINK_FRAMEWORKS_SUFFIX = "";
+				SFML_LINK_PREFIX = "$(SFML_LINK_$(SFML_BINARY_TYPE)_PREFIX)";
+				SFML_LINK_SUFFIX = "$(SFML_LINK_$(SFML_BINARY_TYPE)_SUFFIX)";
+				SFML_NETWORK = "$(SFML_LINK_PREFIX) sfml-network$(SFML_LINK_SUFFIX)";
+				SFML_SYSTEM = "$(SFML_LINK_PREFIX) sfml-system$(SFML_LINK_SUFFIX)";
+				SFML_WINDOW = "$(SFML_LINK_PREFIX) sfml-window$(SFML_LINK_SUFFIX)";
+				SUPPORTED_PLATFORMS = macosx;
+			};
+			name = Debug;
+		};
+		BB083DF7211E420300F0A321 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				FRAMEWORK_SEARCH_PATHS = (
+					/Library/Frameworks/,
+					"$(inherited)",
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include/,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib/,
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"$(SFML_SYSTEM)",
+					"$(SFML_WINDOW)",
+					"$(SFML_GRAPHICS)",
+					"$(SFML_AUDIO)",
+					"$(SFML_NETWORK)",
+				);
+				SFML_AUDIO = "$(SFML_LINK_PREFIX) sfml-audio$(SFML_LINK_SUFFIX)";
+				SFML_BINARY_TYPE = FRAMEWORKS;
+				SFML_GRAPHICS = "$(SFML_LINK_PREFIX) sfml-graphics$(SFML_LINK_SUFFIX)";
+				SFML_LINK_DYLIBS_PREFIX = "-l";
+				SFML_LINK_DYLIBS_SUFFIX = "";
+				SFML_LINK_FRAMEWORKS_PREFIX = "-framework";
+				SFML_LINK_FRAMEWORKS_SUFFIX = "";
+				SFML_LINK_PREFIX = "$(SFML_LINK_$(SFML_BINARY_TYPE)_PREFIX)";
+				SFML_LINK_SUFFIX = "$(SFML_LINK_$(SFML_BINARY_TYPE)_SUFFIX)";
+				SFML_NETWORK = "$(SFML_LINK_PREFIX) sfml-network$(SFML_LINK_SUFFIX)";
+				SFML_SYSTEM = "$(SFML_LINK_PREFIX) sfml-system$(SFML_LINK_SUFFIX)";
+				SFML_WINDOW = "$(SFML_LINK_PREFIX) sfml-window$(SFML_LINK_SUFFIX)";
+				SUPPORTED_PLATFORMS = macosx;
+			};
+			name = Release;
+		};
+		BB083DF9211E420300F0A321 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_OPTIMIZATION_LEVEL = 3;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include/,
+					"$(inherited)",
+					/usr/local/glm/include,
+					/Library/Frameworks/Python.framework/Versions/3.7/include/python3.7m,
+				);
+				INFOPLIST_FILE = "LED_Cube_Simulator/LED_Cube_Simulator-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Python.framework/Versions/3.7",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DAPPLE",
+					"-DXCODE",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"$(SFML_SYSTEM)",
+					"$(SFML_WINDOW)",
+					"$(SFML_GRAPHICS)",
+					"$(SFML_AUDIO)",
+					"$(SFML_NETWORK)",
+					"-framework",
+					OpenGL,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BB083DFA211E420300F0A321 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_OPTIMIZATION_LEVEL = 3;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include/,
+					"$(inherited)",
+					/usr/local/glm/include,
+					/Library/Frameworks/Python.framework/Versions/3.7/include/python3.7m,
+					/Library/Frameworks/Python.framework/Versions/3.7/include/python3.7m,
+				);
+				INFOPLIST_FILE = "LED_Cube_Simulator/LED_Cube_Simulator-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Python.framework/Versions/3.7",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DAPPLE",
+					"-DXCODE",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"$(SFML_SYSTEM)",
+					"$(SFML_WINDOW)",
+					"$(SFML_GRAPHICS)",
+					"$(SFML_AUDIO)",
+					"$(SFML_NETWORK)",
+					"-framework",
+					OpenGL,
+					"-L/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/config-3.7m-darwin",
+					"-lpython3.7m",
+					"-ldl",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BB083DDD211E420200F0A321 /* Build configuration list for PBXProject "LED_Cube_Simulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BB083DF6211E420300F0A321 /* Debug */,
+				BB083DF7211E420300F0A321 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BB083DF8211E420300F0A321 /* Build configuration list for PBXNativeTarget "LED_Cube_Simulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BB083DF9211E420300F0A321 /* Debug */,
+				BB083DFA211E420300F0A321 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BB083DDA211E420200F0A321 /* Project object */;
+}

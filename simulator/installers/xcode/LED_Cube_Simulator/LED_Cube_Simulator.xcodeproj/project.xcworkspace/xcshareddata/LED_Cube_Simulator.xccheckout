@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C9A5C3D9-311A-4508-8F8A-89A080CDBD24</string>
+	<key>IDESourceControlProjectName</key>
+	<string>LED_Cube_Simulator</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>3F086DFB7F6F254DCE222524D388926960FFC2ED</key>
+		<string>https://github.com/maverick7170/led-cube.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>simulator/installers/xcode/LED_Cube_Simulator/LED_Cube_Simulator.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>3F086DFB7F6F254DCE222524D388926960FFC2ED</key>
+		<string>../../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/maverick7170/led-cube.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>3F086DFB7F6F254DCE222524D388926960FFC2ED</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>3F086DFB7F6F254DCE222524D388926960FFC2ED</string>
+			<key>IDESourceControlWCCName</key>
+			<string>led-cube.old</string>
+		</dict>
+	</array>
+</dict>
+</plist>

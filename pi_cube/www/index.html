@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.button {
+	background-color: #4CAF50; /* Green */
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 100px;
+	margin: 4px 2px;
+	cursor: pointer;
+	-webkit-transition-duration: 0.4s; /* Safari */
+	transition-duration: 0.4s;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	width: 100%;
+}
+
+.button0 { background-color: #000000; }
+.button1 { background-color: #FF0000; }
+.button2 { background-color: #00FF00; }
+.button3 { background-color: #FFA500; }
+.button4 { background-color: #F08080; }
+.button5 { background-color: #00FFFF; }
+.button6 { background-color: #FF00FF; }
+.button7 { background-color: #0000FF; }
+.button8 { background-color: #FFFF00; }
+
+.center {
+	text-align: center;
+}
+h1 {
+	font-size: 70px;
+}
+</style>
+</head>
+<body>
+<h1 class="center">University of Florida<br/>LED Cube</h1>
+<button class="button button0" onclick="Send(0)"> Enable/Disable disp. </button>
+<button class="button button1" onclick="Send(1)"> Panel Numbers </button>
+<button class="button button5" onclick="Send(5)"> Explore Colors </button>
+<button class="button button2" onclick="Send(2)"> Show Logos </button>
+<button class="button button3" onclick="Send(3)"> Gator Animation </button>
+<button class="button button6" onclick="Send(6)"> IMU Orientation </button>
+<button class="button button4" onclick="Send(4)"> Particle Simulator </button>
+<button class="button button0" onclick="Send(9)"> UDP Server </button>
+<p id="demo"> </p>
+<script>
+function Send(mode) {
+	var xhttp_ = new XMLHttpRequest();
+	xhttp_.open("GET", "/cgi-bin/test.cgi?"+mode, false);
+	xhttp_.send();
+	document.getElementById("demo").innerHTML = "Last Command: "+mode;
+}
+</script>
+
+</body>
+</html>
