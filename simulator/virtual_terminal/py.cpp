@@ -49,7 +49,9 @@ namespace Py {
     	PyRun_SimpleString("import random\n");
     	PyRun_SimpleString("import os\n");
     	PyRun_SimpleString("import sys\n");
+		#ifdef XCODE
         PyRun_SimpleString(std::string("sys.path.append('" + resourcePath() + "/python')\n").c_str());
+		#endif
     	PyRun_SimpleString("sys.path.append(os.getcwd()+'/examples/python')\n");
         PyRun_SimpleString("print(sys.path)\n");
     	//PyRun_SimpleString("sys.path.append(os.getcwd()+'/python/examples')\n");
