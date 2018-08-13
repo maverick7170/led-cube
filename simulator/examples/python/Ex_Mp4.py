@@ -2,25 +2,37 @@ from cube_simulator import Pixel, rgb, Cube
 import random, math, time
 import subprocess as sp
 
+#Create cube and list of colors
 cube = Cube()
-FFMPEG_BIN='ffmpeg'
 
-#command = [ FFMPEG_BIN, '-ss', '00:00:5','-i','movies/BigBuckBunny_320x180.mp4','-ss','1','-f', 'image2pipe','-pix_fmt', 'rgb24','-vf','scale=106:60','-vcodec','rawvideo', '-']
-command = [ FFMPEG_BIN,'-i','../resources/movies/BigBuckBunny_320x180.mp4','-f', 'image2pipe','-pix_fmt', 'rgb24','-vf','scale=106:60','-vcodec','rawvideo', '-']
-#command = [ FFMPEG_BIN,'-s:v','106x60','-r','25','-i','movies/BigBuckBunny_S.yuv','-f', 'image2pipe','-pix_fmt', 'rgb24','-vcodec','rawvideo', '-']
+#Comminucate with ffmpeg to process the video through python pipes
+FFMPEG_BIN='ffmpeg'
+command = [ FFMPEG_BIN,'-i','../../resources/movies/BigBuckBunny_320x180.mp4','-f', 'image2pipe','-pix_fmt', 'rgb24','-vf','scale=106:60','-vcodec','rawvideo', '-']
 pipe = sp.Popen(command, stdout = sp.PIPE, bufsize=10**8)
+
+#Movie properties, will need to change for a different video
 mov_depth = 3
 mov_width = 106
 mov_height = 60
+
+#Run through a specfic number of frames in movie, adjust as needed
 for jj in range(0,10000):
+	#Grab pixels from ffmpeg pipe
 	pixels = [ii for ii in pipe.stdout.read(mov_width*mov_height*mov_depth)]
-	cube.leds = [0 for ii in range(0,24576*3)]
+	
+	#Clear cube
+	cube.reset()
+
+	#Copy pixels to cube
 	for row in range(0,mov_height):
 		for col in range(0,mov_width*mov_depth,mov_depth):
 			index = row*64*6 + col//mov_depth + 64
 			pix = Pixel(pixels[row*mov_width*mov_depth+col],pixels[row*mov_width*mov_depth+col+1],pixels[row*mov_width*mov_depth+col+2])
-			cube.set_pixel(index,pix)
+			cube.set_led(index,pix)
+
+	#Update cube simulation with image pixels and wait before showing next one	
 	cube.update()
 	time.sleep(0.01)
-	#break
+
+#Done with pipe
 pipe.terminate()

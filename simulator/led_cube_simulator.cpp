@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
     #else
     const std::string font_filename = "resources/UbuntuMono-R.ttf";
     #endif
-    #ifdef UNIX
+    #if defined(UNIX) && !defined(APPLE)
     const int font_size = 20*WINDOW_WIDTH/1280.;
     #else
     const int font_size = 32*WINDOW_WIDTH/1280.;

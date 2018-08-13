@@ -1,10 +1,20 @@
 from cube_simulator import Pixel, rgb, Cube
+import random
+
+#Create cube and list of colors
 cube = Cube()
+colors = [rgb.white,rgb.red,rgb.green,rgb.blue,rgb.yellow,rgb.magenta,rgb.aqua,rgb.salmon,rgb.silver,rgb.lawn_green,rgb.purple,rgb.navy]
+
+#Create a list of the 4 corners on every face
 indices = [0,383,24192,24575]
 for ii in range(64,384,64):
 	indices += [ii-1,ii]
 	indices += [ii+24191,ii+24192]
-print(indices)
+
+#Set each corner to a random color
 for index in indices:
-	cube.set_pixel(index,rgb.green)
+	select = random.randint(0,len(colors)-1)
+	cube.set_led(index,colors[select])
+
+#Update cube simulation with new colors
 cube.update()

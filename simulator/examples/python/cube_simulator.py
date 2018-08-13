@@ -43,6 +43,10 @@ class Cube:
 		for ii in range(0,24576*3):
 			self.leds[ii] = 0
 
+	def set_all_leds(self,pixel):
+		for ii in range(0,24576*3,3):
+			self.leds[ii:ii+3] = (pixel.r,pixel.g,pixel.b)
+
 	def in_range(self,v,low,high):
 		if v < low or v > high:
 			raise RuntimeError("Something bad happened")
@@ -68,7 +72,7 @@ class Cube:
 			index = row*64*6*3 + face*64*3 + col*3
 			self.leds[index:index+3] = (pixel.r,pixel.g,pixel.b)		
 
-	def set_pixel(self,index,pixel):
+	def set_led(self,index,pixel):
 		self.in_range(index,0,24575)
 		self.leds[index*3:index*3+3] = (pixel.r,pixel.g,pixel.b)
 

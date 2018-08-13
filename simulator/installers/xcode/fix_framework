@@ -1,0 +1,14 @@
+#!/bin/bash
+rm -rf LED_Cube_Simulator.app
+
+install_name_tool -change /Library/Frameworks/Python.framework/Versions/3.7/Python @rpath/Python.framework/Versions/3.7/Python LED_Cube_Simulator/DerivedData/Build/Products/Release/LED_Cube_Simulator.app/Contents/MacOS/LED_Cube_Simulator
+
+cp -r /Library/Frameworks/Python.framework LED_Cube_Simulator/DerivedData/Build/Products/Release/LED_Cube_Simulator.app/Contents/Frameworks/.
+
+rm -rf LED_Cube_Simulator/DerivedData/Build/Products/Release/LED_Cube_Simulator.app/Contents/Frameworks/Python.framework/Versions/3.7/lib/python3.7/test
+
+rm -rf LED_Cube_Simulator/DerivedData/Build/Products/Release/LED_Cube_Simulator.app/Contents/Frameworks/Python.framework/Versions/3.7/share/doc
+
+otool -L LED_Cube_Simulator/DerivedData/Build/Products/Release/LED_Cube_Simulator.app/Contents/MacOS/LED_Cube_Simulator
+
+mv LED_Cube_Simulator/DerivedData/Build/Products/Release/LED_Cube_Simulator.app .
