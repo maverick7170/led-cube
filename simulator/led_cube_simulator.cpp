@@ -88,16 +88,24 @@ int main(int argc, char* argv[]) {
         std::cout <<  "Glew failed to initialize: " << glewGetErrorString(err) << std::endl;
         return -1;
     }
-    #endif    
+    #endif
+
+    //Handle font issues for each os
+    #ifdef XCODE
+    const std::string font_filename = resourcePath()+"UbuntuMono-R.ttf";
+    #else
+    const std::string font_filename = "resources/UbuntuMono-R.ttf";
+    #endif
+    #ifdef UNIX
+    const int font_size = 20*WINDOW_WIDTH/1280.;
+    #else
+    const int font_size = 32*WINDOW_WIDTH/1280.;
+    #endif
 
     //Virtual terminal to store user's commands and track history
     sf::Font font;
-    #ifdef XCODE
-    if (!font.loadFromFile(resourcePath()+"UbuntuMono-R.ttf")) { }
-    #else
-    if (!font.loadFromFile("resources/UbuntuMono-R.ttf")) { }
-    #endif
-    Terminal terminal(window,font,32*WINDOW_WIDTH/1280.);
+    if (!font.loadFromFile(font_filename)) { }
+    Terminal terminal(window,font,font_size);
     terminal.new_line();
 
     //Initialize python embedded system for running commands
