@@ -4,6 +4,8 @@ project (LED-CUBE-SIMULATOR)
 set (SIMULATOR_VERSION_MAJOR 1)
 set (SIMULATOR_VERSION_MINOR 0)
 set (CMAKE_CXX_STANDARD 14)
+set (EXAMPLES "YES")
+set (CMAKE_INSTALL_PREFIX ".")
 
 if (NOT CMAKE_BUILD_TYPE)
 	set (CMAKE_BUILD_TYPE Release)
@@ -77,4 +79,9 @@ add_executable(led_cube_simulator led_cube_simulator.cpp udp_server.cpp render_t
 target_include_directories(led_cube_simulator PRIVATE ${PYTHON_INCLUDE_DIRS} ${SFML-INCLUDES} ${GLEW-INCLUDES} ${GLM})
 target_link_libraries(led_cube_simulator ${SFML-GRAPHICS} ${SFML-WINDOW} ${SFML-SYSTEM} ${SFML-NETWORK} ${OPENGL} ${GLEW} ${PYTHON_LIBRARIES} ${PTHREAD})
 
-install (TARGETS led_cube_simulator DESTINATION bin)
+install (TARGETS led_cube_simulator DESTINATION "../")
+
+#if (EXAMPLES)
+#	add_subdirectory("examples/c++")
+#endif()
+

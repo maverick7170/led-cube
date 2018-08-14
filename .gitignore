@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+simulator/build/*
+
+# Other
+*.pyc
+*.gif
+simulator/resources/movies*

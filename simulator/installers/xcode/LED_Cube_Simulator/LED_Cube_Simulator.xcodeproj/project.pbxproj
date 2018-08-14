@@ -22,6 +22,7 @@
 		BB083E41211F03EB00F0A321 /* sfml-system.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB083E3C211F03EB00F0A321 /* sfml-system.framework */; };
 		BB083E42211F03EB00F0A321 /* sfml-window.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB083E3D211F03EB00F0A321 /* sfml-window.framework */; };
 		BB724FE72120CBD70015B672 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB724FE62120CBD70015B672 /* Images.xcassets */; };
+		BB724FEA21225A040015B672 /* c++ in Resources */ = {isa = PBXBuildFile; fileRef = BB724FE921225A040015B672 /* c++ */; };
 		BBABA86221200B0900F423F7 /* python in Resources */ = {isa = PBXBuildFile; fileRef = BBABA86121200B0900F423F7 /* python */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,7 @@
 		BB083E3C211F03EB00F0A321 /* sfml-system.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-system.framework"; path = "/Library/Frameworks/sfml-system.framework"; sourceTree = "<absolute>"; };
 		BB083E3D211F03EB00F0A321 /* sfml-window.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-window.framework"; path = "/Library/Frameworks/sfml-window.framework"; sourceTree = "<absolute>"; };
 		BB724FE62120CBD70015B672 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		BB724FE921225A040015B672 /* c++ */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "c++"; path = "../../../../examples/c++"; sourceTree = "<group>"; };
 		BBABA86121200B0900F423F7 /* python */ = {isa = PBXFileReference; lastKnownFileType = folder; name = python; path = ../../../../examples/python; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,6 +117,7 @@
 		BB083DED211E420200F0A321 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BB724FE921225A040015B672 /* c++ */,
 				BBABA86121200B0900F423F7 /* python */,
 				BB083E33211E528D00F0A321 /* shaders */,
 				BB083E03211E431200F0A321 /* UbuntuMono-R.ttf */,
@@ -193,6 +196,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB724FEA21225A040015B672 /* c++ in Resources */,
 				BBABA86221200B0900F423F7 /* python in Resources */,
 				BB083E08211E431200F0A321 /* texture.jpg in Resources */,
 				BB083E34211E528D00F0A321 /* shaders in Resources */,
