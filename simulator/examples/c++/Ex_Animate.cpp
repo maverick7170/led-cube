@@ -27,8 +27,14 @@
 #include "led_cube.h"
 #include <png.hpp>
 
-int main()
+int main(int argc, char *argv[])
 {
+	//Check if we should update simulation or a real cube
+	int cube_type = 0;
+	if (argc > 1) {
+		cube_type = atoi(argv[1]);
+	}
+
 	//Create cube and vector to hold all 12 images
 	LED_Cube cube;
 	std::vector<png::image<png::rgb_pixel>> all_pixels;
@@ -67,7 +73,7 @@ int main()
 		}
 
 		//Update cube simulation with image and wait before showing next one
-		cube.update();
+		cube.update(cube_type);
 		++ticker;
 		std::this_thread::sleep_for(std::chrono::milliseconds(25));		
 	}

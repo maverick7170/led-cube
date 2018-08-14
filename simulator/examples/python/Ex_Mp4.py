@@ -1,6 +1,12 @@
 from cube_simulator import Pixel, rgb, Cube
 import random, math, time
 import subprocess as sp
+from sys import argv
+
+#Check for simulation vs real cube
+cube_type = None
+if len(argv) > 1:
+	cube_type = argv[1]
 
 #Create cube and list of colors
 cube = Cube()
@@ -31,7 +37,7 @@ for jj in range(0,10000):
 			cube.set_led(index,pix)
 
 	#Update cube simulation with image pixels and wait before showing next one	
-	cube.update()
+	cube.update(cube_type)
 	time.sleep(0.01)
 
 #Done with pipe

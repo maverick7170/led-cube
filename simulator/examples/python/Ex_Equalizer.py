@@ -1,5 +1,11 @@
 from cube_simulator import Pixel, rgb, Cube
 import random, math, time
+from sys import argv
+
+#Check for simulation vs real cube
+cube_type = None
+if len(argv) > 1:
+	cube_type = argv[1]
 
 #Create cube and the shades of red, green, blue in the equalizer bar
 #Each bar is 5 leds wide and starts out green and then yellow to red
@@ -8,9 +14,6 @@ cube = Cube()
 red = [round(ii*7.968) for ii in range(1,33)] + [255]*32
 green = [255]*32 + [round(ii*7.968) for ii in range(32,0,-1)]
 blue = [0]*64
-print(red)
-print(green)
-print(blue)
 
 #Equalizer bar properties
 mag = 40
@@ -40,5 +43,5 @@ while time.time()-start_time <= 30:
 						cube.set_led(index,Pixel(red[height],green[height],blue[height]))
 
 	#Update cube simulation with image pixels and wait before showing next one	
-	cube.update()
+	cube.update(cube_type)
 	time.sleep(0.1)

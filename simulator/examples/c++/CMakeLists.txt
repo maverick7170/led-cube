@@ -38,10 +38,13 @@ target_link_libraries(Ex_Columns ${SFML_NETWORK})
 add_executable(Ex_Corners Ex_Corners.cpp)
 target_link_libraries(Ex_Corners ${SFML_NETWORK})
 
+add_executable(Ex_Equalizer Ex_Equalizer.cpp)
+target_link_libraries(Ex_Equalizer ${SFML_NETWORK})
+
 add_executable(Ex_Faces Ex_Faces.cpp)
 target_link_libraries(Ex_Faces ${SFML_NETWORK})
 
 add_executable(Ex_Rows Ex_Rows.cpp)
 target_link_libraries(Ex_Rows ${SFML_NETWORK})
 
-install (TARGETS Ex_Animate Ex_Circles Ex_Columns Ex_Corners Ex_Faces Ex_Rows DESTINATION "../")
+install (TARGETS Ex_Animate Ex_Circles Ex_Columns Ex_Corners Ex_Equalizer Ex_Faces Ex_Rows DESTINATION "../")
