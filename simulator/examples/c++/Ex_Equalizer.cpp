@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 		cube_type = atoi(argv[1]);
 	}
 
-	//Create cube and vector to hold all 12 images
+	//Create cube and vectors to hold equalizer bars
 	LED_Cube cube;
 	std::vector<uint8_t> red(64,255), green(64,255), blue(64,0);
 	for (auto ii = 0; ii < 32; ++ii) {
