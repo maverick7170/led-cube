@@ -26,8 +26,14 @@
 #include <ctime>
 #include "led_cube.h"
 
-int main()
+int main(int argc, char *argv[])
 {
+	//Check if we should update simulation or a real cube
+	int cube_type = 0;
+	if (argc > 1) {
+		cube_type = atoi(argv[1]);
+	}
+
 	//Create cube and vector of default colors
 	LED_Cube cube;
 	std::vector<Pixel> colors = {cube.white, cube.red, cube.green, cube.blue, 
@@ -51,7 +57,7 @@ int main()
 	}
 
 	//Update cube simulation with new colors
-	cube.update();
+	cube.update(cube_type);
 
 	return 0;
 }

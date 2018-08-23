@@ -26,19 +26,22 @@
 #include <ctime>
 #include <cmath>
 #include "led_cube.h"
-#include <png.hpp>
 
-int main()
+int main(int argc, char *argv[])
 {
-	//Create cube and vector to hold all 12 images
+	//Check if we should update simulation or a real cube
+	int cube_type = 0;
+	if (argc > 1) {
+		cube_type = atoi(argv[1]);
+	}
+
+	//Create cube and vectors to hold equalizer bars
 	LED_Cube cube;
 	std::vector<uint8_t> red(64,255), green(64,255), blue(64,0);
 	for (auto ii = 0; ii < 32; ++ii) {
 		red[ii] = round((ii+1)*7.968);
 		green[ii+32] = round((32-ii)*7.968);
 	}
-
-	for (auto r : red) { std::cout << (int)r << " "; } std::cout << std::endl;
 
 	//Equalize bar properties
 	double mag = 40, step = 0.2244;
@@ -50,7 +53,6 @@ int main()
 	std::uniform_real_distribution<double> dist_shift(-10,10);
 
 	//Loop for 60 seconds, showing mario walking
-	size_t ticker = 0;
 	auto start = std::chrono::system_clock::now();
 
 	while (true) {
@@ -85,7 +87,7 @@ int main()
 		}
 
 		//Update cube simulation with image and wait before showing next one
-		cube.update();
+		cube.update(cube_type);
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));		
 	}
 

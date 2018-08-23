@@ -18,40 +18,7 @@
 ////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////
-// Headers
+// MATLAB Definitions
 ////////////////////////////////////////////////////////////
-#include <iostream>
-#include <random>
-#include <chrono>
-#include <ctime>
-#include "led_cube.h"
-
-int main(int argc, char *argv[])
-{
-	//Check if we should update simulation or a real cube
-	int cube_type = 0;
-	if (argc > 1) {
-		cube_type = atoi(argv[1]);
-	}
-
-	//Create cube and vector of default colors
-	LED_Cube cube;
-	std::vector<Pixel> colors = {cube.white, cube.red, cube.green, cube.blue, 
-								 cube.yellow, cube.magenta, cube.aqua, cube.salmon,
-								 cube.silver, cube.lawn_green, cube.purple, cube.navy };
-
-	//Change a col of leds on each face to a random color
-	std::mt19937 engine(time(0));
-	std::uniform_int_distribution<int> dist(0,colors.size()-1);
-	for (auto face = 0; face < 6; ++face) {
-		for (auto col = 0; col < 64; ++col) {
-			auto select = dist(engine);
-			cube.set_col_face_color(col,face,colors[select]);
-		}
-	}
-
-	//Update cube simulation with new colors
-	cube.update(cube_type);
-
-	return 0;
-}
+int sf_bind(int port);
+int sf_update(unsigned char *bytes, int flag);

@@ -1,5 +1,11 @@
 from cube_simulator import Pixel, rgb, Cube
 import random
+from sys import argv
+
+#Check for simulation vs real cube
+cube_type = None
+if len(argv) > 1:
+	cube_type = argv[1]
 
 #Create cube and list of colors
 cube = Cube()
@@ -18,4 +24,4 @@ for face in range(0,6):
 				cube.set_led(index,colors[circle_color[face]])
 
 #Update cube simulation with new colors
-cube.update()
+cube.update(cube_type)
