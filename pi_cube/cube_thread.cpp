@@ -77,22 +77,22 @@ void cube_thread() {
 					//uint32_t bot_j1 = 128<<16;
 					uint32_t top_j1 = *(top_ptr+ii+offset+half_width);
 				        uint32_t bot_j1 = *(bot_ptr+ii+offset+half_width);
-					//uint32_t top_j2 = *(top_ptr+ii+offset), bot_j2 = *(bot_ptr+ii+offset);
-					uint32_t flag = //((top_j2 >> modulation) & 0x1) |
-							//((top_j2 >> (7+modulation)) & 0x2) |
-							//((top_j2 >> (14+modulation)) & 0x4) |
-							//((bot_j2 >> (4+modulation)) & 0x10) |
-							//((bot_j2 >> (11+modulation)) & 0x20) |
+					uint32_t top_j2 = *(top_ptr+ii+offset), bot_j2 = *(bot_ptr+ii+offset);
+					uint32_t flag = ((top_j2 >> modulation) & 0x1u) |
+							((top_j2 >> (7+modulation)) & 0x2u) |
+							((top_j2 >> (14+modulation)) & 0x4u) |
+							((bot_j2 >> (4+modulation)) & 0x10u) |
+							((bot_j2 >> (11+modulation)) & 0x20u) |
 							((top_j1 << (17-modulation)) & (uint32_t)0x20000) |
 							((top_j1 << (10-modulation)) & (uint32_t)0x40000) |
 							((bot_j1 << (20-modulation)) & (uint32_t)0x100000) |
 							((bot_j1 << (13-modulation)) & (uint32_t)0x200000);
 					if (modulation <= 3) {
-						flag |= ((top_j1 << (3-modulation)) & (uint32_t)0x80000);
-							//((bot_j2 << (3-modulation)) & 0x8);
+						flag |= ((top_j1 << (3-modulation)) & (uint32_t)0x80000) |
+							((bot_j2 << (3-modulation)) & 0x8u);
 					} else {
-						flag |= ((top_j1 >> (modulation-3)) & (uint32_t)0x80000);
-							//((bot_j2 >> (modulation-3)) & 0x8);
+						flag |= ((top_j1 >> (modulation-3)) & (uint32_t)0x80000) |
+							((bot_j2 >> (modulation-3)) & 0x8u);
 					}
 					if (modulation <= 6) {
 						flag |= ((bot_j1 << (6-modulation)) & (uint32_t)0x400000);
