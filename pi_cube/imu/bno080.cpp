@@ -116,6 +116,7 @@ int BNO080::request_report(REPORT report, uint16_t timeBetweenReports, uint32_t 
 
 
 bool BNO080::get_reports() {
+	return false; //REMOVE WHEN IMU IS PLACED ON NEW PCBs
 	if (!interrupt()) { 
 		++failed_interrupts;
 		if (failed_interrupts >= 40) {

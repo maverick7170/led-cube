@@ -120,18 +120,18 @@ int main(int argc, char **argv)
 
   uint32_t mode = 0, ticker = 0;
  
-  off_t control_shm_length = 4, pixels_shm_length = PIXELS*4;
+  off_t control_shm_length = 4; //pixels_shm_length = PIXELS*4;
   int control_shm_fd = shm_open("/control_shm",O_RDWR | O_CREAT,0666);
-  int pixels_shm_fd = shm_open("/pixels_shm",O_RDWR | O_CREAT,0666);
+  //int pixels_shm_fd = shm_open("/pixels_shm",O_RDWR | O_CREAT,0666);
   ftruncate(control_shm_fd, control_shm_length);
-  ftruncate(pixels_shm_fd, pixels_shm_length);
+  //ftruncate(pixels_shm_fd, pixels_shm_length);
 
   assert(control_shm_fd > 0);
-  assert(pixels_shm_fd > 0);
+  //assert(pixels_shm_fd > 0);
 
   uint32_t *control_shm = (uint32_t *)mmap(NULL, control_shm_length, PROT_READ|PROT_WRITE, MAP_SHARED, control_shm_fd, 0);
-  *control_shm = 9;
-  uint32_t *pixels_shm = (uint32_t *)mmap(NULL, pixels_shm_length, PROT_READ|PROT_WRITE, MAP_SHARED, pixels_shm_fd, 0);
+  *control_shm = 1;
+  //uint32_t *pixels_shm = (uint32_t *)mmap(NULL, pixels_shm_length, PROT_READ|PROT_WRITE, MAP_SHARED, pixels_shm_fd, 0);
  
   memcpy(binary_color,blank.data(),PIXELS*4);
   
