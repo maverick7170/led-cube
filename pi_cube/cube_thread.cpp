@@ -1,3 +1,25 @@
+////////////////////////////////////////////////////////////
+////
+//// LED Cube for Teaching Introductory Programming Concepts
+//// Copyright (C) 2018 Ira Hill (ijh3@ufl.edu)
+////
+//// This program is free software: you can redistribute it and/or modify
+//// it under the terms of the GNU General Public License as published by
+//// the Free Software Foundation, either version 3 of the License, or
+//// (at your option) any later version.
+////
+//// This program is distributed in the hope that it will be useful,
+//// but WITHOUT ANY WARRANTY; without even the implied warranty of
+//// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//// GNU General Public License for more details.
+////
+//// You should have received a copy of the GNU General Public License
+//// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////
+//// Headers
+//////////////////////////////////////////////////////////////
 #include <iostream> 
 #include <chrono>
 #include <thread>
@@ -16,18 +38,26 @@
 
 #include "gpio/gpio.h"
 
+////////////////////////////////////////////////////////////
+//// Namespace/Defines
+//////////////////////////////////////////////////////////////
 using namespace std;
-
 #define RBG
 
+////////////////////////////////////////////////////////////
+//// Globals
+//////////////////////////////////////////////////////////////
 extern bool CUBE_ON, FINISHED;
 extern const int PANEL_WIDTH,CHAIN_LENGTH,PIXELS;
 extern uint32_t binary_color[];
 
+////////////////////////////////////////////////////////////
+//// Pi specific delay routine
+//////////////////////////////////////////////////////////////
 void delayMicrosecondsHard (unsigned long int howLong) {
 	unsigned long int offset = 4;
 	if (howLong >= offset) {
-    		struct timespec sleep_time = { 0, (howLong-offset)*1000 };
+    		struct timespec sleep_time = { 0, static_cast<long int>((howLong-offset)*500) };
         	nanosleep(&sleep_time, NULL);
 	} else { 
 		struct timeval tNow, tLong, tEnd ;
@@ -37,18 +67,15 @@ void delayMicrosecondsHard (unsigned long int howLong) {
   		timeradd (&tNow, &tLong, &tEnd) ;
   		while (timercmp (&tNow, &tEnd, <))
     			gettimeofday (&tNow, NULL) ;
-    		//struct timespec sleep_time = { 0, 1 };
-        	//nanosleep(&sleep_time, NULL);
 	}
 }
 
- 
+////////////////////////////////////////////////////////////
+//// Dedicated Thread to update LED Cube
+//////////////////////////////////////////////////////////////
 void cube_thread() { 
-  const unsigned ROW_A = 13, ROW_B = 14, ROW_C = 15, ROW_D = 16, ROW_E = 17;
-  //const unsigned TOP_R = 22, TOP_R_2 = 5; //TOP_G = 1<<23, TOP_B = 1<<24;
-  //const unsigned BOT_R = 25;//BOT_G = 1<<26, BOT_B = 1<<27;
-  const unsigned LAT =  18, CLK = 19, OE = 20; 
-  vector<int> pins = {ROW_A,ROW_B,ROW_C,ROW_D,ROW_E,22,23,24,25,26,27,LAT,CLK,OE,5,6,7,8,9,10};
+  const unsigned ROW_A = 13, LAT = 18, CLK = 19, OE = 20; 
+  vector<int> pins = {ROW_A,14,15,16,16,22,23,24,25,26,27,LAT,CLK,OE,5,6,7,8,9,10};
   set_output_pins(pins);
   uint32_t frame = 0, cube_off_count = 0, half_width = PANEL_WIDTH*CHAIN_LENGTH/2;
   chrono::duration<double,std::milli> elapsed;
@@ -115,32 +142,9 @@ void cube_thread() {
 			delayMicrosecondsHard( delays[modulation] );
 			GPIO_SET = 1<<OE;
 		}
-  	}
+	}
 	++frame;
   }
   elapsed = chrono::duration<double,std::milli>(chrono::high_resolution_clock::now()-start);
   cout << elapsed.count()/frame << endl;
 }
-
-
-					/*uint32_t a = *(top_ptr+offset+ii), b = *(bot_ptr+offset+ii), a_2 = *(top_ptr+offset+ii+half_width), b_2 = *(bot_ptr+offset+ii+half_width);
-					#ifdef RBG
-					//uint32_t flag_a = ((a >> modulation) & 0x1) | ((a >> (6+modulation) & 0x4)) | ((a >> (15+modulation) & 0x2)); 
-					uint32_t flag_a_2 = ((a_2 >> modulation) & 0x1) | ((a_2 >> (6+modulation) & 0x4)) | ((a_2 >> (15+modulation) & 0x2)); 
-				
-					//uint32_t flag_b = ((b >> modulation) & 0x1) | ((b >> (6+modulation) & 0x4)) | ((b >> (15+modulation) & 0x2)); 	
-					uint32_t flag_b_2 = ((b_2 >> modulation) & 0x1) | ((b_2 >> (6+modulation) & 0x4)) | ((b_2 >> (15+modulation) & 0x2)); 	
-					#else
-					uint32_t flag_a = ((a >> modulation) & 0x1) | ((a >> (7+modulation) & 0x2)) | ((a >> (14+modulation) & 0x4)); 
-					uint32_t flag_a_2 = ((a_2 >> modulation) & 0x1) | ((a_2 >> (7+modulation) & 0x2)) | ((a_2 >> (14+modulation) & 0x4)); 
-				
-					uint32_t flag_b = ((b >> modulation) & 0x1) | ((b >> (7+modulation) & 0x2)) | ((b >> (14+modulation) & 0x4)); 
-					uint32_t flag_b_2 = ((b_2 >> modulation) & 0x1) | ((b_2 >> (7+modulation) & 0x2)) | ((b_2 >> (14+modulation) & 0x4)); 
-					#endif
-					//uint32_t flag = (flag_a | (flag_b<<3));
-					//GPIO_SET = flag << TOP_R;
-					//GPIO_CLR = ((~flag) & 0x3f)<<TOP_R;
-					
-					uint32_t flag_2 = (flag_a_2 | (flag_b_2<<3));
-					GPIO_SET = flag_2 << TOP_R_2;
-					GPIO_CLR = ((~flag_2) & 0x3f)<<TOP_R_2;*/
