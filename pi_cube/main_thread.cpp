@@ -46,7 +46,7 @@ const int PANEL_WIDTH = 64, CHAIN_LENGTH = 6, PIXELS = PANEL_WIDTH*PANEL_WIDTH*C
 extern uint32_t binary_color[];
 uint32_t binary_color[PIXELS], double_buffer[PIXELS];
 void cube_thread(); 
-uint32_t background_color = 255 | 255 << 8 | 255 << 16;
+uint32_t background_color = 128 | 128ul << 8 | 128ul << 16;
 
 void read_txt_file(string filename) {
   uint32_t count=0, width = 0;

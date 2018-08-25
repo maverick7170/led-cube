@@ -57,7 +57,7 @@ extern uint32_t binary_color[];
 void delayMicrosecondsHard (unsigned long int howLong) {
 	unsigned long int offset = 4;
 	if (howLong >= offset) {
-    		struct timespec sleep_time = { 0, static_cast<long int>((howLong-offset)*500) };
+    		struct timespec sleep_time = { 0, static_cast<long int>((howLong-offset)*250) };
         	nanosleep(&sleep_time, NULL);
 	} else { 
 		struct timeval tNow, tLong, tEnd ;
@@ -75,7 +75,7 @@ void delayMicrosecondsHard (unsigned long int howLong) {
 //////////////////////////////////////////////////////////////
 void cube_thread() { 
   const unsigned ROW_A = 13, LAT = 18, CLK = 19, OE = 20; 
-  vector<int> pins = {ROW_A,14,15,16,16,22,23,24,25,26,27,LAT,CLK,OE,5,6,7,8,9,10};
+  vector<int> pins = {ROW_A,14,15,16,17,22,23,24,25,26,27,LAT,CLK,OE,5,6,7,8,9,10};
   set_output_pins(pins);
   uint32_t frame = 0, cube_off_count = 0, half_width = PANEL_WIDTH*CHAIN_LENGTH/2;
   chrono::duration<double,std::milli> elapsed;
