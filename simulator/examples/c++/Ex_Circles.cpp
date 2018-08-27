@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
 
 	//Create cube and vector of default colors
 	LED_Cube cube;
+	cube.reset();
 	std::vector<Pixel> colors = {cube.white, cube.red, cube.green, cube.blue, 
 								 cube.yellow, cube.magenta, cube.aqua, cube.salmon,
 								 cube.silver, cube.lawn_green, cube.purple, cube.navy };
