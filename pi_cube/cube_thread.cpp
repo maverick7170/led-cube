@@ -18,13 +18,16 @@
 
 using namespace std;
 
+#define RGB
+
 extern bool CUBE_ON, FINISHED;
 extern const int PANEL_WIDTH,CHAIN_LENGTH,PIXELS;
 extern uint32_t binary_color[];
 
 void delayMicrosecondsHard (unsigned long int howLong) {
-	if (howLong >= 40000) {
-    		struct timespec sleep_time = { 0, (howLong-4)*500 };
+	unsigned long int offset = 4;
+	if (howLong >= offset) {
+    		struct timespec sleep_time = { 0, (howLong-offset)*1000 };
         	nanosleep(&sleep_time, NULL);
 	} else { 
 		struct timeval tNow, tLong, tEnd ;
@@ -71,8 +74,13 @@ void cube_thread() {
 					GPIO_CLR=0x3F<<TOP_R;
 				} else {
 					uint32_t a = *(top_ptr+offset+ii), b = *(bot_ptr+offset+ii);
+					#ifdef RBG
 					uint32_t flag_a = ((a >> modulation) & 0x1) | ((a >> (6+modulation) & 0x4)) | ((a >> (15+modulation) & 0x2)); 
-					uint32_t flag_b = ((b >> modulation) & 0x1) | ((b >> (6+modulation) & 0x4)) | ((b >> (15+modulation) & 0x2)); 
+					uint32_t flag_b = ((b >> modulation) & 0x1) | ((b >> (6+modulation) & 0x4)) | ((b >> (15+modulation) & 0x2)); 	
+					#else
+					uint32_t flag_a = ((a >> modulation) & 0x1) | ((a >> (7+modulation) & 0x2)) | ((a >> (14+modulation) & 0x4)); 
+					uint32_t flag_b = ((b >> modulation) & 0x1) | ((b >> (7+modulation) & 0x2)) | ((b >> (14+modulation) & 0x4)); 
+					#endif
 					uint32_t flag = (flag_a | (flag_b<<3));
 					GPIO_SET = flag << TOP_R;
 					GPIO_CLR = ((~flag) & 0x3f)<<TOP_R;
