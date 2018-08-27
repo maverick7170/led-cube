@@ -57,7 +57,7 @@ extern uint32_t binary_color[];
 void delayMicrosecondsHard (unsigned long int howLong) {
 	unsigned long int offset = 4;
 	if (howLong >= offset) {
-    		struct timespec sleep_time = { 0, static_cast<long int>((howLong-offset)*250) };
+    		struct timespec sleep_time = { 0, static_cast<long int>((howLong-offset)*450) };
         	nanosleep(&sleep_time, NULL);
 	} else { 
 		struct timeval tNow, tLong, tEnd ;
