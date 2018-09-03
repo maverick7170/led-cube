@@ -17,4 +17,7 @@ If you are an instructor/educator, check out the Wiki for getting started using 
 ## Contribute
 This is an open-source project, and it needs your help to go on growing and improving. If you want to get involved and suggest some additional features, file a bug report or submit a patch, please contact me!
 
-<video src="https://github.com/maverick7170/led-cube/blob/assets/wiki/LED_Mario_Web.mp4" width="320" controls preload></video>
+## led-cube videos
+<a href="https://github.com/maverick7170/led-cube/blob/assets/wiki/LED_Mario_Web.mp4"> Mario Animation </a>
+<a href="https://github.com/maverick7170/led-cube/blob/assets/wiki/LED_Equalizer_Web.mp4"> Music Equalizer </a>
+
