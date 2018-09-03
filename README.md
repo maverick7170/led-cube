@@ -3,6 +3,7 @@ This project is intended as a series of small modules/examples for teaching prog
 
 <img align="left" src="https://github.com/maverick7170/led-cube/blob/assets/wiki/all_parts.jpg" width="900">
 <br>
+<br>
 
 ## Authors
   - Ira Hill — main developer (ijh3 at ufl.edu)
@@ -12,9 +13,6 @@ You can get the latest official release from the Releases tab or compile from so
 
 ## Quick start guide
 If you are an instructor/educator, check out the Wiki for getting started using the cube and/or simulator.
-
-## Building from source
-Follow the instructions located on the Wiki page for your specific platform (Windows, Linux, OS X).
 
 ## Contribute
 This is an open-source project, and it needs your help to go on growing and improving. If you want to get involved and suggest some additional features, file a bug report or submit a patch, please contact me!
