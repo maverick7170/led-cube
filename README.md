@@ -1,5 +1,5 @@
 # led-cube
-This project is intended as a series of small modules/examples for teaching programming in Python, C++, and MATLAB (other languages can be easily added!). It provides building instructions and the corresponding code for a led cube made from 64x64 RGB led panels. With some creativity, the cube can display almost anything! To help with incorporation into larger classes, there is also a virtual simulation of the cube for students to use. Simply write code in your favorite language, and quickly visualize the results in the simulator. 
+This project is intended as a series of small modules/examples for teaching programming in Python, C++, and MATLAB (other languages can be easily added). It provides building instructions and the corresponding code for a led cube made from six 64x64 RGB led panels. With some creativity, the cube can display almost anything! To use with larger classes, there is a virtual simulator for students to use. Simply write code in your favorite language, and quickly visualize the results in the simulator or on the physical cube. 
 
 <img align="left" src="https://github.com/maverick7170/led-cube/blob/assets/wiki/all_parts.jpg" width="900">
 <br>
@@ -19,5 +19,6 @@ This is an open-source project, and it needs your help to go on growing and impr
 
 ## led-cube videos
 <a href="https://github.com/maverick7170/led-cube/blob/assets/wiki/LED_Mario_Web.mp4"> Mario Animation </a>
+<br>
 <a href="https://github.com/maverick7170/led-cube/blob/assets/wiki/LED_Equalizer_Web.mp4"> Music Equalizer </a>
 
