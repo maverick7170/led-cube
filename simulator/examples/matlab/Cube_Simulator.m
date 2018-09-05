@@ -27,7 +27,13 @@ classdef Cube_Simulator < handle
             if libisloaded('MATLAB_udp_socket')
                 unloadlibrary('MATLAB_udp_socket')
             end
-            loadlibrary('MATLAB_udp_socket.dylib','MATLAB_udp_socket.h')
+			if ismac
+				loadlibrary('MATLAB_udp_socket.dylib','MATLAB_udp_socket.h')
+			elseif isunix
+				loadlibrary('MATLAB_udp_socket.so','MATLAB_udp_socket.h')
+			elseif ispc
+				loadlibrary('MATLAB_udp_socket.dll','MATLAB_udp_socket.h')
+			end
             if calllib('MATLAB_udp_socket','sf_bind',9090) ~= 0
                 error('Unable to create udp socket for communicating with cube')
             end

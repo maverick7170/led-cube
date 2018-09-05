@@ -209,7 +209,7 @@ public:
 			lines.push_back("... ");
 		} else {
 			if (x.size() > 5 && x.substr(0,4) == "run ") {
-				x = "exec(open(\"./python/" + x.substr(4) + "\").read())";
+				x = "exec(open(\"./examples/python/" + x.substr(4) + "\").read())";
 			}
 			if (compound_command.size()) {
 				x = compound_command+x;
