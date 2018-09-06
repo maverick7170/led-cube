@@ -24,6 +24,8 @@ Source: "..\..\examples\matlab\*.h"; DestDir: "{app}\examples\matlab"
 Source: "..\..\examples\matlab\*.dll"; DestDir: "{app}\examples\matlab"
 Source: "dll\sfml-network-2.dll"; DestDir: "{app}\examples\matlab"
 Source: "..\..\examples\python\*.py"; DestDir: "{app}\examples\python"
+Source: "python\python.exe"; DestDir: "{app}\examples\python"
+
 
 [Icons]
 Name: "{group}\My Program"; Filename: "{app}\LED_Cube_Simulator.exe"
