@@ -10,7 +10,7 @@ sudo apt-get install $SOFTWARE_LIST -y
 
 #Download Eigen headers
 wget http://bitbucket.org/eigen/eigen/get/3.3.5.tar.bz2 -O /tmp/eigen.tar.bz2
-tar -xvf /tmp/eigen.tar.bz2 -C /tmp
+sudo tar -xvf /tmp/eigen.tar.bz2 -C /tmp
 sudo cp -r /tmp/eigen-eigen-b3f3d4950030 /usr/local/include/eigen
 
 #Setup pi settings
@@ -18,9 +18,11 @@ wget https://github.com/maverick7170/led-cube/raw/assets/downloads/led_cube_pi_i
 wget https://github.com/maverick7170/led-cube/raw/assets/downloads/liquidfun_release.zip -O /tmp/liquidfun_release.zip
 wget https://github.com/maverick7170/led-cube/raw/assets/downloads/pi_settings.zip -O /tmp/pi_settings.zip
 
-unzip /tmp/liquidfun_release.zip -d /tmp
-unzip /tmp/pi_settings.zip -d /tmp
+sudo unzip /tmp/liquidfun_release.zip -d /tmp
+sudo unzip /tmp/pi_settings.zip -d /tmp
 
+sudo cp -r /tmp/liquidfun_release/Box2D /usr/local/include/.
+sudo cp /tmp/liquidfun_release/libliquidfun.a /usr/local/lib/.
 sudo cp /etc/rc.local /etc/rc.local.backup
 sudo cp /boot/config.txt /boot/config.txt.backup
 sudo cp /boot/cmdline.txt /boot/cmdline.txt.backup
@@ -37,3 +39,4 @@ sudo chmod +x /usr/lib/dhcpcd5/dhcpcd
 #Install led cube pi
 git clone https://github.com/maverick7170/led-cube.git /home/pi/led-cube
 cd /home/pi/led-cube/pi_cube && make && sudo cp led_cube /usr/local/bin/.
+sudo reboot
