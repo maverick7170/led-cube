@@ -25,11 +25,11 @@ sudo cp -r /tmp/liquidfun_release/Box2D /usr/local/include/.
 sudo cp /tmp/liquidfun_release/libliquidfun.a /usr/local/lib/.
 sudo cp /etc/rc.local /etc/rc.local.backup
 sudo cp /boot/config.txt /boot/config.txt.backup
-sudo cp /boot/cmdline.txt /boot/cmdline.txt.backup
+#sudo cp /boot/cmdline.txt /boot/cmdline.txt.backup
 
 sudo cp /tmp/pi_settings/rc.local /etc/rc.local
 sudo cp /tmp/pi_settings/config.txt /boot/config.txt
-sudo cp /tmp/pi_settings/cmdline.txt /boot/cmdline.txt
+#sudo cp /tmp/pi_settings/cmdline.txt /boot/cmdline.txt
 
 #Setup Wifi
 sudo /tmp/pi_settings/wifi_install
