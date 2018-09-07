@@ -1,8 +1,8 @@
 CC=g++ -Wall
 DEFINES=
 CFLAGS=-O3 -std=c++14 
-INCLUDES=-I/usr/local/include/eigen -I../../liquidfun/liquidfun/Box2D
-LIBS=-L../../liquidfun/liquidfun/Box2D/build/Box2D/Release -lrt -lliquidfun -lpthread
+INCLUDES=-I/usr/local/include/eigen -I/usr/local/include/Box2D
+LIBS=-L/usr/local/lib -lrt -lliquidfun -lpthread
 
 CUBE=led_cube
 CUBE_SOURCES=imu/bno080.cpp cube_thread.cpp gpio/gpio.cpp main_thread.cpp liquid_fun/particle_sim.cpp
