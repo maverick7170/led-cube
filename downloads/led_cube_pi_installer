@@ -5,18 +5,18 @@ sudo apt-get update -y
 sudo apt-get upgrade -y
 
 #Install missing software
-SOFTWARE_LIST = git cmake libglu1-mesa-dev libglapi-mesa libxi-dev
-sudo apt-get install SOFTWARE_LIST -y 
+SOFTWARE_LIST="git cmake libglu1-mesa-dev libglapi-mesa libxi-dev"
+sudo apt-get install $SOFTWARE_LIST -y 
 
 #Download Eigen headers
 wget http://bitbucket.org/eigen/eigen/get/3.3.5.tar.bz2 -O /tmp/eigen.tar.bz2
 tar -xvf /tmp/eigen.tar.bz2 -C /tmp
-sudo cp -r eigen-eigen-b3f3d4950030 /usr/local/include/eigen
+sudo cp -r /tmp/eigen-eigen-b3f3d4950030 /usr/local/include/eigen
 
 #Setup pi settings
-wget https://github.com/maverick7170/led-cube/blob/assets/downloads/led_cube_pi_installer -O /tmp/led_cube_pi_installer
-wget https://github.com/maverick7170/led-cube/blob/assets/downloads/liquidfun_release.zip -O /tmp/liquidfun_release.zip
-wget https://github.com/maverick7170/led-cube/blob/assets/downloads/pi_settings.zip -O /tmp/pi_settings.zip
+wget https://github.com/maverick7170/led-cube/raw/assets/downloads/led_cube_pi_installer -O /tmp/led_cube_pi_installer
+wget https://github.com/maverick7170/led-cube/raw/assets/downloads/liquidfun_release.zip -O /tmp/liquidfun_release.zip
+wget https://github.com/maverick7170/led-cube/raw/assets/downloads/pi_settings.zip -O /tmp/pi_settings.zip
 
 unzip /tmp/liquidfun_release.zip -d /tmp
 unzip /tmp/pi_settings.zip -d /tmp
@@ -31,5 +31,9 @@ sudo cp /tmp/pi_settings/cmdline.txt /boot/cmdline.txt
 
 #Setup Wifi
 sudo /tmp/pi_settings/wifi_install
-sudo cp /tmp/pi_settings/dhcpcd /usr/lib/dhcpcd5/dhcpcd
+sudo cp /tmp/pi_settings/dhcpcd.sh /usr/lib/dhcpcd5/dhcpcd
 sudo chmod +x /usr/lib/dhcpcd5/dhcpcd
+
+#Install led cube pi
+git clone https://github.com/maverick7170/led-cube.git /home/pi/led-cube
+cd /home/pi/led-cube/pi_cube && make && sudo cp led_cube /usr/local/bin/.
