@@ -11,7 +11,6 @@
 		BB083DFF211E42A500F0A321 /* udp_server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB083DFC211E42A500F0A321 /* udp_server.cpp */; };
 		BB083E00211E42A500F0A321 /* led_cube_simulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB083DFD211E42A500F0A321 /* led_cube_simulator.cpp */; };
 		BB083E06211E431200F0A321 /* UbuntuMono-R.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB083E03211E431200F0A321 /* UbuntuMono-R.ttf */; };
-		BB083E07211E431200F0A321 /* mario in Resources */ = {isa = PBXBuildFile; fileRef = BB083E04211E431200F0A321 /* mario */; };
 		BB083E08211E431200F0A321 /* texture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BB083E05211E431200F0A321 /* texture.jpg */; };
 		BB083E0A211E4E0C00F0A321 /* py.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB083E09211E4E0C00F0A321 /* py.cpp */; };
 		BB083E34211E528D00F0A321 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = BB083E33211E528D00F0A321 /* shaders */; };
@@ -21,6 +20,8 @@
 		BB083E40211F03EB00F0A321 /* sfml-network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB083E3B211F03EB00F0A321 /* sfml-network.framework */; };
 		BB083E41211F03EB00F0A321 /* sfml-system.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB083E3C211F03EB00F0A321 /* sfml-system.framework */; };
 		BB083E42211F03EB00F0A321 /* sfml-window.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB083E3D211F03EB00F0A321 /* sfml-window.framework */; };
+		BB48DD432144069E004CCFED /* matlab in Resources */ = {isa = PBXBuildFile; fileRef = BB48DD422144069E004CCFED /* matlab */; };
+		BB48DD45214406AD004CCFED /* resources in Resources */ = {isa = PBXBuildFile; fileRef = BB48DD44214406AD004CCFED /* resources */; };
 		BB724FE72120CBD70015B672 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB724FE62120CBD70015B672 /* Images.xcassets */; };
 		BB724FEA21225A040015B672 /* c++ in Resources */ = {isa = PBXBuildFile; fileRef = BB724FE921225A040015B672 /* c++ */; };
 		BBABA86221200B0900F423F7 /* python in Resources */ = {isa = PBXBuildFile; fileRef = BBABA86121200B0900F423F7 /* python */; };
@@ -33,7 +34,6 @@
 		BB083DFC211E42A500F0A321 /* udp_server.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = udp_server.cpp; path = ../../../../udp_server.cpp; sourceTree = "<group>"; };
 		BB083DFD211E42A500F0A321 /* led_cube_simulator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = led_cube_simulator.cpp; path = ../../../../led_cube_simulator.cpp; sourceTree = "<group>"; };
 		BB083E03211E431200F0A321 /* UbuntuMono-R.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "UbuntuMono-R.ttf"; path = "../../../../resources/UbuntuMono-R.ttf"; sourceTree = "<group>"; };
-		BB083E04211E431200F0A321 /* mario */ = {isa = PBXFileReference; lastKnownFileType = folder; name = mario; path = ../../../../resources/mario; sourceTree = "<group>"; };
 		BB083E05211E431200F0A321 /* texture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = texture.jpg; path = ../../../../resources/texture.jpg; sourceTree = "<group>"; };
 		BB083E09211E4E0C00F0A321 /* py.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = py.cpp; path = ../../../../virtual_terminal/py.cpp; sourceTree = "<group>"; };
 		BB083E0C211E4F9600F0A321 /* terminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = terminal.h; path = ../../../../virtual_terminal/terminal.h; sourceTree = "<group>"; };
@@ -48,6 +48,8 @@
 		BB083E3B211F03EB00F0A321 /* sfml-network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-network.framework"; path = "/Library/Frameworks/sfml-network.framework"; sourceTree = "<absolute>"; };
 		BB083E3C211F03EB00F0A321 /* sfml-system.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-system.framework"; path = "/Library/Frameworks/sfml-system.framework"; sourceTree = "<absolute>"; };
 		BB083E3D211F03EB00F0A321 /* sfml-window.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-window.framework"; path = "/Library/Frameworks/sfml-window.framework"; sourceTree = "<absolute>"; };
+		BB48DD422144069E004CCFED /* matlab */ = {isa = PBXFileReference; lastKnownFileType = folder; name = matlab; path = ../../../../examples/matlab; sourceTree = "<group>"; };
+		BB48DD44214406AD004CCFED /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = resources; path = ../../../../examples/resources; sourceTree = "<group>"; };
 		BB724FE62120CBD70015B672 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BB724FE921225A040015B672 /* c++ */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "c++"; path = "../../../../examples/c++"; sourceTree = "<group>"; };
 		BBABA86121200B0900F423F7 /* python */ = {isa = PBXFileReference; lastKnownFileType = folder; name = python; path = ../../../../examples/python; sourceTree = "<group>"; };
@@ -117,11 +119,12 @@
 		BB083DED211E420200F0A321 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BB48DD44214406AD004CCFED /* resources */,
+				BB48DD422144069E004CCFED /* matlab */,
 				BB724FE921225A040015B672 /* c++ */,
 				BBABA86121200B0900F423F7 /* python */,
 				BB083E33211E528D00F0A321 /* shaders */,
 				BB083E03211E431200F0A321 /* UbuntuMono-R.ttf */,
-				BB083E04211E431200F0A321 /* mario */,
 				BB083E05211E431200F0A321 /* texture.jpg */,
 			);
 			name = Resources;
@@ -196,13 +199,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB48DD432144069E004CCFED /* matlab in Resources */,
 				BB724FEA21225A040015B672 /* c++ in Resources */,
 				BBABA86221200B0900F423F7 /* python in Resources */,
 				BB083E08211E431200F0A321 /* texture.jpg in Resources */,
+				BB48DD45214406AD004CCFED /* resources in Resources */,
 				BB083E34211E528D00F0A321 /* shaders in Resources */,
 				BB724FE72120CBD70015B672 /* Images.xcassets in Resources */,
 				BB083E06211E431200F0A321 /* UbuntuMono-R.ttf in Resources */,
-				BB083E07211E431200F0A321 /* mario in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

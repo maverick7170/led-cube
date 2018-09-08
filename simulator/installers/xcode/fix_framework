@@ -18,3 +18,20 @@ rm -rf LED_Cube_Simulator/DerivedData/Build/Products/Release/LED_Cube_Simulator.
 otool -L LED_Cube_Simulator/DerivedData/Build/Products/Release/LED_Cube_Simulator.app/Contents/MacOS/LED_Cube_Simulator
 
 mv LED_Cube_Simulator/DerivedData/Build/Products/Release/LED_Cube_Simulator.app .
+
+rm -rf LED_Cube_Simulator.app/Contents/Resources/c++/build 
+rm -rf LED_Cube_Simulator.app/Contents/Resources/c++/*.txt 
+rm -rf LED_Cube_Simulator.app/Contents/Resources/c++/*.cpp
+rm -rf LED_Cube_Simulator.app/Contents/Resources/c++/*.backup
+rm -rf LED_Cube_Simulator.app/Contents/Resources/c++/*.h
+rm -rf LED_Cube_Simulator.app/Contents/Resources/matlab/*.cpp
+rm -rf LED_Cube_Simulator.app/Contents/Resources/python/*.backup
+
+mkdir LED_Cube_Simulator.app/Contents/Resources/examples
+mv LED_Cube_Simulator.app/Contents/Resources/python LED_Cube_Simulator.app/Contents/Resources/examples/.
+mv LED_Cube_Simulator.app/Contents/Resources/c++ LED_Cube_Simulator.app/Contents/Resources/examples/.
+mv LED_Cube_Simulator.app/Contents/Resources/matlab LED_Cube_Simulator.app/Contents/Resources/examples/.
+mv LED_Cube_Simulator.app/Contents/Resources/resources LED_Cube_Simulator.app/Contents/Resources/examples/.
+
+
+
