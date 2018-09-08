@@ -108,7 +108,7 @@ class I2C {
 		I2C() {
 			fid = open("/dev/i2c-1",O_RDWR);
 			if (fid < 0) {
-				std::cout << "ERROR: I2C open" << std::endl;
+				std::cout << "ERROR: Unable to find /dev/i2c-1! Has the i2c interface been enabled?" << std::endl;
 			}
 			ioctl(fid,I2C_SLAVE,BNO080_DEFAULT_ADDRESS); 
 		};
@@ -155,10 +155,10 @@ class BNO080 {
 		BNO080(uint8_t deviceAddress_) : deviceAddress(deviceAddress_), failed_reads(0) 
 		{
 			for (auto ii  = 0; ii < 15; ++ii) { enabled[ii] = false; }
-  			set_output_pins(std::vector<int>{9});
-  			set_input_pins(std::vector<int>{10});
+  			set_output_pins(std::vector<int>{11});
+  			set_input_pins(std::vector<int>{12});
 		}
-		bool interrupt() { return !GET_GPIO(10); }
+		bool interrupt() { return !GET_GPIO(12); }
 		void wait_ms(int t) { std::this_thread::sleep_for(std::chrono::milliseconds(t)); }	
 		int send(CHANNEL channel, uint8_t data[], uint16_t packetLength, bool start = false);
 		int read();
@@ -171,9 +171,9 @@ class BNO080 {
 			//while (1) { wait_ms(1000); }    
 		}
 		void reset() {
-  			GPIO_CLR = 1<<9;
+  			GPIO_CLR = 1<<11;
 			std::this_thread::sleep_for(std::chrono::milliseconds(200)); 
-  			GPIO_SET = 1<<9;
+  			GPIO_SET = 1<<11;
 			std::this_thread::sleep_for(std::chrono::milliseconds(400)); 
 		}
 		SENSOR_FLOAT accel,gyro,game,rot,mag,linear;
