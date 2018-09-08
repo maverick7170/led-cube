@@ -14,7 +14,7 @@ image_count = 12
 
 #Load all 12 images into list
 for ii in range(1,image_count+1):
-	filename = '../../resources/mario/mario_' + str(ii) + '.png'
+	filename = '../resources/mario/mario_' + str(ii) + '.png'
 	with open(filename,'rb') as fid:
 		fid_png = png.Reader(file=fid)
 		raw_data = fid_png.read()
@@ -22,13 +22,10 @@ for ii in range(1,image_count+1):
 		height = raw_data[1]
 		planes = raw_data[3]['planes']
 		pixels = list(raw_data[2])
-		blank_pixels = [[Pixel(0,0,0)]*64 for ii in range(0,64)]
+		blank_pixels = [[Pixel(255,255,255)]*64 for ii in range(0,64)]
 		for row in range(0,min(height,64)):
 			for col in range(0,width*planes,planes):
-				if pixels[row][col] >= 250 and pixels[row][col+1] >= 250 and pixels[row][col+2] >= 250:
-					blank_pixels[row][col//planes] = rgb.black
-				else:
-					blank_pixels[row][col//planes] = Pixel(pixels[row][col],pixels[row][col+1],pixels[row][col+2])
+				blank_pixels[row][col//planes] = Pixel(pixels[row][col],pixels[row][col+1],pixels[row][col+2])
 		all_pixels.append(blank_pixels)
 
 #Run animation for 30 seconds
@@ -36,7 +33,7 @@ ticker = 0
 start_time = time.time();
 while time.time()-start_time <= 30:
 	#Set background color
-	cube.set_all_leds(rgb.black)
+	cube.set_all_leds(rgb.white)
 	#Draw image
 	for row in range(0,64):
 		for col in range(0,64):

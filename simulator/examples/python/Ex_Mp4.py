@@ -13,7 +13,7 @@ cube = Cube()
 
 #Comminucate with ffmpeg to process the video through python pipes
 FFMPEG_BIN='ffmpeg'
-command = [ FFMPEG_BIN,'-i','../../resources/movies/BigBuckBunny_320x180.mp4','-f', 'image2pipe','-pix_fmt', 'rgb24','-vf','scale=106:60','-vcodec','rawvideo', '-']
+command = [ FFMPEG_BIN,'-i','../resources/movies/BigBuckBunny_320x180.mp4','-f', 'image2pipe','-pix_fmt', 'rgb24','-vf','scale=106:60','-vcodec','rawvideo', '-']
 pipe = sp.Popen(command, stdout = sp.PIPE, bufsize=10**8)
 
 #Movie properties, will need to change for a different video

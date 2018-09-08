@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 
 	//Load all 12 images into vector
 	for (auto ii = 1; ii <= image_count; ++ii) {
-		std::string filename = "../../resources/mario/mario_" + std::to_string(ii) + ".png";
+		std::string filename = "../resources/mario/mario_" + std::to_string(ii) + ".png";
 		png::image<png::rgb_pixel> pix(filename);
 		all_pixels.push_back( pix );
 	}
