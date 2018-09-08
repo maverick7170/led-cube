@@ -5,7 +5,7 @@ sudo apt-get update -y
 sudo apt-get upgrade -y
 
 #Install missing software
-SOFTWARE_LIST="git cmake libglu1-mesa-dev libglapi-mesa libxi-dev"
+SOFTWARE_LIST="git cmake libglu1-mesa-dev libglapi-mesa libxi-dev i2c-tools"
 sudo apt-get install $SOFTWARE_LIST -y 
 
 #Download Eigen headers
@@ -26,6 +26,7 @@ sudo cp /tmp/liquidfun_release/libliquidfun.a /usr/local/lib/.
 sudo cp /etc/rc.local /etc/rc.local.backup
 sudo cp /boot/config.txt /boot/config.txt.backup
 #sudo cp /boot/cmdline.txt /boot/cmdline.txt.backup
+echo "i2c-dev" | sudo tee -a  /etc/modules
 
 sudo cp /tmp/pi_settings/rc.local /etc/rc.local
 sudo cp /tmp/pi_settings/config.txt /boot/config.txt
