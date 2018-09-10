@@ -8,6 +8,7 @@ CUBE=led_cube
 CUBE_SOURCES=imu/bno080.cpp cube_thread.cpp gpio/gpio.cpp main_thread.cpp liquid_fun/particle_sim.cpp
 CUBE_OBJECTS=$(CUBE_SOURCES:.cpp=.o)
 
+.PHONY: install
 all: cube
 
 cube: $(CUBE_SOURCES) $(CUBE)
@@ -20,3 +21,6 @@ $(CUBE): $(CUBE_OBJECTS)
 
 clean:
 		rm -f *.o; rm -f $(CUBE)
+	
+install: led_cube
+	cp $< /usr/local/bin/.
