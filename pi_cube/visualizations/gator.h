@@ -16,8 +16,8 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////////////////
-#ifndef DICE_
-#define DICE_
+#ifndef GATOR_
+#define GATOR_
 
 //////////////////////////////////////////////////////////////
 //// Headers
@@ -25,21 +25,35 @@
 #include "base_visualizer.h"
 
 
-class DICE : public VISUALIZER {
+class GATOR : public VISUALIZER {
 public:
-	DICE(BNO080 &imu_, uint32_t pixel_data_[]) : VISUALIZER(imu_) {
-		pixel_data = &pixel_data_[0];
-	} 
+	GATOR(BNO080 &imu_, std::vector<std::array<uint32_t,24576>> &pixel_data_) : VISUALIZER(imu_), pixel_data(pixel_data_) {} 
 	void start(uint32_t *led_data) {
-		imu.reset();
- 		imu.request_report(BNO080::LINEAR_ACCELERATION,75);
-		memcpy(led_data,pixel_data,24576*4);
+		std::fill(led_data,led_data+24576,24576*4);
 	}
 	void run(uint32_t *led_data) {
-		memcpy(led_data,pixel_data,24576*4);	
+		++run_index;
+		if (run_index % 5 != 0) { return; }
+		double_buffer.fill(background_color);
+		for (int row = 0; row < 64; ++row) {
+			for (int col = 0; col < 64; ++col) {
+				int a = row*PANEL_WIDTH*CHAIN_LENGTH + col + 64;
+				int offset = 0;
+				if (col+ticker%256 > 255) {offset = -256;}
+				double_buffer[a+ticker%256+offset] = pixel_data[ticker%6][a];
+				offset = 0;
+				if (col+ticker%256+128 > 255) {offset = -256;}
+				double_buffer[a+ticker%256+offset+128] = pixel_data[ticker%6][a];
+			}
+		}
+		memcpy(led_data,double_buffer.data(),24576*4);
+		++ticker;
 	}
 private:
-	uint32_t *pixel_data;
+	std::vector<std::array<uint32_t,24576>> &pixel_data;
+	uint32_t background_color = 250u | 250u << 8 | 250u << 16;
+	const int PANEL_WIDTH = 64, CHAIN_LENGTH = 6;
+	size_t ticker = 0;
 };
 
 

@@ -30,6 +30,10 @@ void read_text_file(std::string filename, uint32_t *data, int PANEL_WIDTH, int C
 	uint32_t count=0, width = 0;
 	std::vector<uint32_t> panels;
 	std::ifstream fid(filename);
+	if (!fid.is_open()) {
+		std::cout << "MAIN THREAD: FILE ERROR! Unable to open file " << filename << std::endl;
+		return;
+	}
 	std::string line;
   	getline(fid,line);
   	if (line.substr(0,6) == "Width:") {

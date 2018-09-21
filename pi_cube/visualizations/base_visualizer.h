@@ -37,10 +37,10 @@ public:
 		std::fill(double_buffer.begin(),double_buffer.end(),0);
 		memcpy(led_data,double_buffer.data(),64*64*6*4);		
 	}
-	virtual void run(uint32_t *led_data) {
-	}
+	virtual void run(uint32_t *led_data) {}
 	BNO080 &imu;
 	static std::array<uint32_t,64*64*6> double_buffer;
+	size_t run_index = 0;
 };
 
 std::array<uint32_t,64*64*6> VISUALIZER::double_buffer;

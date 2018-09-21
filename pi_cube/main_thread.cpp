@@ -34,6 +34,7 @@
 
 #include "visualizations/base_visualizer.h"
 #include "visualizations/dice.h"
+#include "visualizations/gator.h"
 #include "imu/bno080.h"
 #include "gpio/gpio.h"
 #include "udp/UDPServer.h"
@@ -64,11 +65,11 @@ int main(int argc, char **argv) {
 	std::fill(blank.begin(),blank.end(),0);
 	std::fill(binary_color,binary_color+PIXELS,0);
 
-  	read_text_file("/home/pi/Code/led_panel/images/Panel_Numbers.txt", numbers.data(),PANEL_WIDTH,CHAIN_LENGTH);
-  	read_text_file("/home/pi/Code/led_panel/images/ASEE_Combo_Bravo.txt", logos.data(),PANEL_WIDTH,CHAIN_LENGTH);
+  	read_text_file("/usr/local/led_samples/Panel_Numbers.txt", numbers.data(),PANEL_WIDTH,CHAIN_LENGTH);
+  	read_text_file("/usr/local/led_samples/ASEE_Combo_Bravo.txt", logos.data(),PANEL_WIDTH,CHAIN_LENGTH);
 	std::vector<std::array<uint32_t,PIXELS>> animation(10,std::array<uint32_t,PIXELS>());	
   	for (int ii = 1; ii <= 6; ++ii) {
-		string filename = "/home/pi/Code/led_panel/images/gator_" + to_string(ii) + ".txt";
+		string filename = "/usr/local/led_samples/gator_" + to_string(ii) + ".txt";
 		read_text_file(filename,animation[ii-1].data(),PANEL_WIDTH,CHAIN_LENGTH);
 	}
 	std::cout << "MAIN THREAD: Finished loading images..." << std::endl;
@@ -119,10 +120,13 @@ int main(int argc, char **argv) {
 	#endif
 
 	
-  	uint32_t color_test[10] = { 255, 255<<8, 255<<16, 255 | 255<<8, 255 | 160<<8, 128<<16, 255<<8 | 255<<16, 128 | 128<<16, 255 | 192<<8 | 192<<16, 255 | 255<<8 | 255<<16 };  
-  	uint32_t main_loop_iter = 0, last_iter = 0, mode = 0, ticker = 0, next_mode = 0;
+  	//uint32_t color_test[10] = { 255, 255<<8, 255<<16, 255 | 255<<8, 255 | 160<<8, 128<<16, 255<<8 | 255<<16, 128 | 128<<16, 255 | 192<<8 | 192<<16, 255 | 255<<8 | 255<<16 };  
+  	uint32_t main_loop_iter = 0, mode = 0, next_mode = 0;
 
-	std::array<VISUALIZER,2> visualizer = {VISUALIZER(imu),DICE(imu,numbers.data())};
+	std::array<VISUALIZER*,3> visualizer = {new VISUALIZER(imu),
+						new DICE(imu,numbers.data()),
+						new GATOR(imu,animation)
+						};
 	while (1) {
 		if (main_loop_iter++ % 100 == 0) {
 			next_mode = *control_shm;
@@ -134,15 +138,17 @@ int main(int argc, char **argv) {
 		}
 		if (next_mode != mode) {
 			std::cout << "MAIN THREAD: Mode switch from " << mode << " to " << next_mode << std::endl;
-			visualizer[mode].stop(binary_color);
+			visualizer[mode]->stop(binary_color);
 			if (next_mode < visualizer.size()) {
-				visualizer[next_mode].start(binary_color);
+				visualizer[mode]->stop(binary_color);
+				visualizer[next_mode]->start(binary_color);
 				mode = next_mode;
 			} else {
 				mode = 0;
 			}
 		}
-		visualizer[mode].run(binary_color);
+		//std::cout << "MAIN THREAD: Running mode " << mode << std::endl;
+		visualizer[mode]->run(binary_color);
 		this_thread::sleep_for(chrono::milliseconds(10)); 
 	}
 	std::cout << "MAIN THREAD: FINISHED" << std::endl;
