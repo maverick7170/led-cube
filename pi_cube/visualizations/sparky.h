@@ -16,28 +16,37 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////////////////
-#ifndef DICE_
-#define DICE_
+#ifndef SPARKY_
+#define SPARKY_
 
 //////////////////////////////////////////////////////////////
 //// Headers
 //////////////////////////////////////////////////////////////
 #include "base_visualizer.h"
+#include "../liquid_fun/lf_sparky.h"
 
-class DICE : public VISUALIZER {
+class SPARKY : public VISUALIZER {
 public:
-	DICE(BNO080 &imu_) : VISUALIZER(imu_) {
-  		read_text_file("/usr/local/led_samples/Panel_Numbers.txt", pixels.data(),64,6);
-	} 
+	SPARKY(BNO080 &imu_) : VISUALIZER(imu_) {}
+	~SPARKY() {}	
 	void start(uint32_t *led_data) {
-		imu.reset();
- 		imu.request_report(BNO080::LINEAR_ACCELERATION,75);
-		memcpy(led_data,pixels.data(),24576*4);
+		if (animate == nullptr) {
+			animate = new LFSparky(384,64,4,double_buffer.data());
+			animate->CreateWalls();
+		}
+	}
+	void stop(uint32_t *led_data) {
+		if (animate) { delete animate; }
+		animate = nullptr;
 	}
 	void run(uint32_t *led_data) {
-		memcpy(led_data,pixels.data(),24576*4);	
+		if (animate == nullptr) {return;}
+    		animate->Step();
+    		animate->ProcessContacts();
+    		animate->Draw();
+		memcpy(led_data,double_buffer.data(),24576*4);	
 	}
 private:
-	std::array<uint32_t,24576> pixels;
+	LiquidFunAnimation *animate = nullptr; 
 };
 #endif

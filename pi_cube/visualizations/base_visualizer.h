@@ -24,6 +24,9 @@
 //////////////////////////////////////////////////////////////
 #include "../imu/bno080.h"
 #include <algorithm>
+#include <string>
+
+void read_text_file(std::string filename, uint32_t *data, int width, int height);
 
 class VISUALIZER {
 public:

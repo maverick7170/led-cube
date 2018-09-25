@@ -16,28 +16,25 @@
 //// You should have received a copy of the GNU General Public License
 //// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////////////////
-#ifndef DICE_
-#define DICE_
+#ifndef LOGO_
+#define LOGO_
 
 //////////////////////////////////////////////////////////////
 //// Headers
 //////////////////////////////////////////////////////////////
 #include "base_visualizer.h"
 
-class DICE : public VISUALIZER {
+class LOGO : public VISUALIZER {
 public:
-	DICE(BNO080 &imu_) : VISUALIZER(imu_) {
-  		read_text_file("/usr/local/led_samples/Panel_Numbers.txt", pixels.data(),64,6);
+	LOGO(BNO080 &imu_, std::string filename) : VISUALIZER(imu_) {
+		std::fill(pixels.begin(),pixels.end(),background_color);
+  		read_text_file(filename,pixels.data(),64,6);
 	} 
 	void start(uint32_t *led_data) {
-		imu.reset();
- 		imu.request_report(BNO080::LINEAR_ACCELERATION,75);
 		memcpy(led_data,pixels.data(),24576*4);
-	}
-	void run(uint32_t *led_data) {
-		memcpy(led_data,pixels.data(),24576*4);	
 	}
 private:
 	std::array<uint32_t,24576> pixels;
+	uint32_t background_color = 128 | 128ul << 8 | 128ul << 16;
 };
 #endif

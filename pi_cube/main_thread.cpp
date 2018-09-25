@@ -35,6 +35,9 @@
 #include "visualizations/base_visualizer.h"
 #include "visualizations/dice.h"
 #include "visualizations/gator.h"
+#include "visualizations/sparky.h"
+#include "visualizations/logo.h"
+#include "visualizations/udp.h"
 #include "imu/bno080.h"
 #include "gpio/gpio.h"
 #include "udp/UDPServer.h"
@@ -52,28 +55,17 @@ extern uint32_t binary_color[];
 uint32_t binary_color[PIXELS];
 
 void cube_thread(); 
-void read_text_file(string filename, uint32_t *data, int width, int height);
 
 //////////////////////////////////////////////////////////////
 //// LED Cube Main Thread
 //////////////////////////////////////////////////////////////
 int main(int argc, char **argv) {
   	std::cout << "MAIN THREAD: Loading images..." << std::endl;
-	uint32_t background_color = 128 | 128ul << 8 | 128ul << 16;
-	std::array<uint32_t,PIXELS> logos, numbers, blank;
-	std::fill(logos.begin(),logos.end(),background_color);
+	std::array<uint32_t,PIXELS> blank;
 	std::fill(blank.begin(),blank.end(),0);
 	std::fill(binary_color,binary_color+PIXELS,0);
-
-  	read_text_file("/usr/local/led_samples/Panel_Numbers.txt", numbers.data(),PANEL_WIDTH,CHAIN_LENGTH);
-  	read_text_file("/usr/local/led_samples/ASEE_Combo_Bravo.txt", logos.data(),PANEL_WIDTH,CHAIN_LENGTH);
-	std::vector<std::array<uint32_t,PIXELS>> animation(10,std::array<uint32_t,PIXELS>());	
-  	for (int ii = 1; ii <= 6; ++ii) {
-		string filename = "/usr/local/led_samples/gator_" + to_string(ii) + ".txt";
-		read_text_file(filename,animation[ii-1].data(),PANEL_WIDTH,CHAIN_LENGTH);
-	}
 	std::cout << "MAIN THREAD: Finished loading images..." << std::endl;
- 
+
   	std::cout << "MAIN THREAD: Setting output pins" << std::endl;
   	setup_io();
   	set_output_pins(std::vector<int>{5});
@@ -97,7 +89,7 @@ int main(int argc, char **argv) {
 	assert(control_shm_fd > 0);
 
   	uint32_t *control_shm = (uint32_t *)mmap(NULL,control_shm_length,PROT_READ|PROT_WRITE,MAP_SHARED,control_shm_fd,0);
-  	*control_shm = 1;
+  	*control_shm = 4;
  
   
   	#ifdef THREAD_PRIORITY
@@ -123,9 +115,12 @@ int main(int argc, char **argv) {
   	//uint32_t color_test[10] = { 255, 255<<8, 255<<16, 255 | 255<<8, 255 | 160<<8, 128<<16, 255<<8 | 255<<16, 128 | 128<<16, 255 | 192<<8 | 192<<16, 255 | 255<<8 | 255<<16 };  
   	uint32_t main_loop_iter = 0, mode = 0, next_mode = 0;
 
-	std::array<VISUALIZER*,3> visualizer = {new VISUALIZER(imu),
-						new DICE(imu,numbers.data()),
-						new GATOR(imu,animation)
+	std::array<VISUALIZER*,6> visualizer = {new VISUALIZER(imu),
+						new DICE(imu),
+						new LOGO(imu,"/usr/local/led_samples/ASEE_Combo_Bravo.txt"),
+						new GATOR(imu),
+						new SPARKY(imu),
+						new UDP(imu,server)
 						};
 	while (1) {
 		if (main_loop_iter++ % 100 == 0) {
@@ -159,4 +154,4 @@ int main(int argc, char **argv) {
 	t1.join();
 	GPIO_SET = 1<<5;
 	return 0;
-} 
+}
