@@ -28,6 +28,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <mutex>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -50,6 +51,7 @@ using namespace std;
 extern bool CUBE_ON, FINISHED;
 extern const int PANEL_WIDTH,CHAIN_LENGTH,PIXELS;
 extern uint32_t binary_color[];
+extern mutex mtx;
 
 ////////////////////////////////////////////////////////////
 //// Pi specific delay routine
@@ -102,6 +104,7 @@ void cube_thread() {
 				} else {
 					//uint32_t top_j1 = 128<<8;
 					//uint32_t bot_j1 = 128<<16;
+					//mtx.lock();
 					uint32_t top_j1 = *(top_ptr+ii+offset+half_width);
 				        uint32_t bot_j1 = *(bot_ptr+ii+offset+half_width);
 					uint32_t top_j2 = *(top_ptr+ii+offset), bot_j2 = *(bot_ptr+ii+offset);
@@ -126,6 +129,7 @@ void cube_thread() {
 					} else {
 						flag |= ((bot_j1 >> (modulation-6)) & (uint32_t)0x400000);
 					}
+					//mtx.unlock();
 					GPIO_SET = flag << 5;
 			  		GPIO_CLR = ((~flag) & (uint32_t)0x7E003F) << 5;
 				}

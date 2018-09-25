@@ -22,8 +22,11 @@
 //////////////////////////////////////////////////////////////
 //// Headers
 //////////////////////////////////////////////////////////////
+#include <mutex>
 #include "base_visualizer.h"
 #include "../liquid_fun/lf_sparky.h"
+
+extern std::mutex mtx;
 
 class SPARKY : public VISUALIZER {
 public:
@@ -40,11 +43,16 @@ public:
 		animate = nullptr;
 	}
 	void run(uint32_t *led_data) {
+		//++run_index;
+		//if (run_index % 6 != 0) { return; }
 		if (animate == nullptr) {return;}
-    		animate->Step();
+		double_buffer.fill(0u);
+		animate->Step();
     		animate->ProcessContacts();
     		animate->Draw();
-		memcpy(led_data,double_buffer.data(),24576*4);	
+		mtx.lock();
+		memcpy(led_data,double_buffer.data(),24576*4);
+		mtx.unlock();	
 	}
 private:
 	LiquidFunAnimation *animate = nullptr; 

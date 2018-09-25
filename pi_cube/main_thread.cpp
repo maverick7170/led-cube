@@ -31,6 +31,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <numeric>
+#include <mutex>
 
 #include "visualizations/base_visualizer.h"
 #include "visualizations/dice.h"
@@ -53,6 +54,8 @@ extern const int PANEL_WIDTH, CHAIN_LENGTH, PIXELS;
 const int PANEL_WIDTH = 64, CHAIN_LENGTH = 6, PIXELS = PANEL_WIDTH*PANEL_WIDTH*CHAIN_LENGTH;
 extern uint32_t binary_color[];
 uint32_t binary_color[PIXELS];
+extern mutex mtx;
+mutex mtx;
 
 void cube_thread(); 
 
@@ -89,7 +92,7 @@ int main(int argc, char **argv) {
 	assert(control_shm_fd > 0);
 
   	uint32_t *control_shm = (uint32_t *)mmap(NULL,control_shm_length,PROT_READ|PROT_WRITE,MAP_SHARED,control_shm_fd,0);
-  	*control_shm = 4;
+  	*control_shm = 3;
  
   
   	#ifdef THREAD_PRIORITY
@@ -144,7 +147,7 @@ int main(int argc, char **argv) {
 		}
 		//std::cout << "MAIN THREAD: Running mode " << mode << std::endl;
 		visualizer[mode]->run(binary_color);
-		this_thread::sleep_for(chrono::milliseconds(10)); 
+		this_thread::sleep_for(chrono::milliseconds(8)); 
 	}
 	std::cout << "MAIN THREAD: FINISHED" << std::endl;
 	imu.reset();
