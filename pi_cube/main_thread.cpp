@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
 	assert(control_shm_fd > 0);
 
   	uint32_t *control_shm = (uint32_t *)mmap(NULL,control_shm_length,PROT_READ|PROT_WRITE,MAP_SHARED,control_shm_fd,0);
-  	*control_shm = 3;
+  	*control_shm = 4;
   
   	thread t1(cube_thread);
   	int policy = SCHED_FIFO;

@@ -50,9 +50,7 @@ public:
 		animate->Step();
     		animate->ProcessContacts();
     		animate->Draw();
-		mtx.lock();
 		memcpy(led_data,double_buffer.data(),24576*4);
-		mtx.unlock();	
 	}
 private:
 	LiquidFunAnimation *animate = nullptr; 

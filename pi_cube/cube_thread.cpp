@@ -83,11 +83,13 @@ void cube_thread() {
 				if (!CUBE_ON) {
 					GPIO_CLR=0x7E003F<<5;
 				} else {
-					//uint32_t top_j1 = 128<<8;
-					//uint32_t bot_j1 = 128<<16;
-					uint32_t top_j1 = *(top_ptr+ii+offset+half_width);
-				        uint32_t bot_j1 = *(bot_ptr+ii+offset+half_width);
-					uint32_t top_j2 = *(top_ptr+ii+offset), bot_j2 = *(bot_ptr+ii+offset);
+					uint32_t top_j1 = 128u<<8;
+					uint32_t bot_j1 = 128u<<16;
+					uint32_t top_j2 = 128u<<16;
+					uint32_t bot_j2 = 128u;
+					//uint32_t top_j1 = *(top_ptr+ii+offset+half_width);
+				        //uint32_t bot_j1 = *(bot_ptr+ii+offset+half_width);
+					//uint32_t top_j2 = *(top_ptr+ii+offset), bot_j2 = *(bot_ptr+ii+offset);
 					uint32_t flag = ((top_j2 >> modulation) & 0x1u) |
 							((top_j2 >> (7+modulation)) & 0x2u) |
 							((top_j2 >> (14+modulation)) & 0x4u) |
@@ -122,7 +124,7 @@ void cube_thread() {
 			GPIO_CLR = 1<<LAT;
 			
 			GPIO_CLR = 1<<OE;
-			unsigned nano = static_cast<unsigned>(delays[modulation]*1250);
+			unsigned nano = static_cast<unsigned>(delays[modulation]*1550);
 			std::this_thread::sleep_for(std::chrono::nanoseconds(nano));
 			GPIO_SET = 1<<OE;
 		}
