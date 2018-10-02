@@ -54,25 +54,6 @@ extern uint32_t binary_color[];
 extern mutex mtx;
 
 ////////////////////////////////////////////////////////////
-//// Pi specific delay routine
-//////////////////////////////////////////////////////////////
-void delayMicrosecondsHard (unsigned long int howLong) {
-	unsigned long int offset = 4;
-	if (howLong >= offset) {
-    		struct timespec sleep_time = { 0, static_cast<long int>((howLong-offset)*450) };
-        	nanosleep(&sleep_time, NULL);
-	} else { 
-		struct timeval tNow, tLong, tEnd ;
-  		gettimeofday (&tNow, NULL) ;
-  		tLong.tv_sec  = howLong / 1000000 ;
-  		tLong.tv_usec = howLong % 1000000 ;
-  		timeradd (&tNow, &tLong, &tEnd) ;
-  		while (timercmp (&tNow, &tEnd, <))
-    			gettimeofday (&tNow, NULL) ;
-	}
-}
-
-////////////////////////////////////////////////////////////
 //// Dedicated Thread to update LED Cube
 //////////////////////////////////////////////////////////////
 void cube_thread() { 
@@ -83,7 +64,7 @@ void cube_thread() {
   chrono::duration<double,std::milli> elapsed;
   auto start = chrono::high_resolution_clock::now();
   uint32_t *top_ptr = binary_color, *bot_ptr = (binary_color+32*PANEL_WIDTH*CHAIN_LENGTH);
-  uint32_t delays[] = {0,1,2,4,8,16,32,64}; 
+  uint32_t delays[] = {1,2,4,8,16,32,64,128}; 
   while (!FINISHED) {
 	if (!CUBE_ON && cube_off_count > 5) { 
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -104,7 +85,6 @@ void cube_thread() {
 				} else {
 					//uint32_t top_j1 = 128<<8;
 					//uint32_t bot_j1 = 128<<16;
-					//mtx.lock();
 					uint32_t top_j1 = *(top_ptr+ii+offset+half_width);
 				        uint32_t bot_j1 = *(bot_ptr+ii+offset+half_width);
 					uint32_t top_j2 = *(top_ptr+ii+offset), bot_j2 = *(bot_ptr+ii+offset);
@@ -129,7 +109,6 @@ void cube_thread() {
 					} else {
 						flag |= ((bot_j1 >> (modulation-6)) & (uint32_t)0x400000);
 					}
-					//mtx.unlock();
 					GPIO_SET = flag << 5;
 			  		GPIO_CLR = ((~flag) & (uint32_t)0x7E003F) << 5;
 				}
@@ -143,12 +122,13 @@ void cube_thread() {
 			GPIO_CLR = 1<<LAT;
 			
 			GPIO_CLR = 1<<OE;
-			delayMicrosecondsHard( delays[modulation] );
+			unsigned nano = static_cast<unsigned>(delays[modulation]*1250);
+			std::this_thread::sleep_for(std::chrono::nanoseconds(nano));
 			GPIO_SET = 1<<OE;
 		}
 	}
 	++frame;
   }
   elapsed = chrono::duration<double,std::milli>(chrono::high_resolution_clock::now()-start);
-  cout << elapsed.count()/frame << endl;
+  cout << "CUBE THREAD: Elasped time (ms): " << elapsed.count()/frame << endl;
 }

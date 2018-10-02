@@ -71,8 +71,6 @@ int main(int argc, char **argv) {
 
   	std::cout << "MAIN THREAD: Setting output pins" << std::endl;
   	setup_io();
-  	set_output_pins(std::vector<int>{5});
-  	GPIO_SET = 1<<5;
   	std::cout << "MAIN THREAD: Setting output pins finished..." << std::endl;
 
   	std::cout << "MAIN THREAD: Setting imu" << std::endl;
@@ -93,31 +91,22 @@ int main(int argc, char **argv) {
 
   	uint32_t *control_shm = (uint32_t *)mmap(NULL,control_shm_length,PROT_READ|PROT_WRITE,MAP_SHARED,control_shm_fd,0);
   	*control_shm = 3;
- 
   
-  	#ifdef THREAD_PRIORITY
-  		int policy = SCHED_FIFO;
-  		sched_param sch_params;
-  		sch_params.sched_priority = 90;
-  		if (pthread_setschedparam(t1.native_handle(), policy, &sch_params) ) {
-			std::cout << "MAIN LOOP: Thread priority failed..." << std::endl;
-		}
-	#endif
-
   	thread t1(cube_thread);
-	#ifdef THREAD_AFFINITY
-  		cpu_set_t cpuset;
-  		CPU_ZERO(&cpuset);
-  		CPU_SET(3, &cpuset);
-  		if ( pthread_setaffinity_np(t1.native_handle(),sizeof(cpu_set_t), &cpuset) != 0 ) {
-			std::cout << "MAIN LOOP: Thread affinity failed..." << std::endl;
-  		}
-	#endif
-
+  	int policy = SCHED_FIFO;
+  	sched_param sch_params;
+  	sch_params.sched_priority = 99;
+  	if (pthread_setschedparam(t1.native_handle(), policy, &sch_params) ) {
+		std::cout << "MAIN LOOP: Thread priority failed..." << std::endl;
+	}
+	cpu_set_t cpuset;
+  	CPU_ZERO(&cpuset);
+  	CPU_SET(3, &cpuset);
+  	if ( pthread_setaffinity_np(t1.native_handle(),sizeof(cpu_set_t), &cpuset) != 0 ) {
+		std::cout << "MAIN LOOP: Thread affinity failed..." << std::endl;
+  	}
 	
-  	//uint32_t color_test[10] = { 255, 255<<8, 255<<16, 255 | 255<<8, 255 | 160<<8, 128<<16, 255<<8 | 255<<16, 128 | 128<<16, 255 | 192<<8 | 192<<16, 255 | 255<<8 | 255<<16 };  
   	uint32_t main_loop_iter = 0, mode = 0, next_mode = 0;
-
 	std::array<VISUALIZER*,6> visualizer = {new VISUALIZER(imu),
 						new DICE(imu),
 						new LOGO(imu,"/usr/local/led_samples/ASEE_Combo_Bravo.txt"),
@@ -155,6 +144,5 @@ int main(int argc, char **argv) {
 	FINISHED = true;
 	this_thread::sleep_for(chrono::milliseconds(200)); 
 	t1.join();
-	GPIO_SET = 1<<5;
 	return 0;
 }

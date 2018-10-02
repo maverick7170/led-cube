@@ -33,6 +33,7 @@
 simulator/build/*
 
 # Other
+*.backup
 *.pyc
 *.gif
 simulator/resources/movies*
