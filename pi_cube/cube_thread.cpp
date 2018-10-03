@@ -52,12 +52,30 @@ extern bool CUBE_ON, FINISHED;
 extern const int PANEL_WIDTH,CHAIN_LENGTH,PIXELS;
 extern uint32_t binary_color[];
 extern mutex mtx;
+volatile uint32_t *timer1Mhz;
 
 ////////////////////////////////////////////////////////////
 //// Dedicated Thread to update LED Cube
 //////////////////////////////////////////////////////////////
-void cube_thread() { 
-  const unsigned ROW_A = 13, LAT = 18, CLK = 19, OE = 20; 
+void cube_thread() {
+  	int mem_fd;
+  	if ((mem_fd = open("/dev/mem", O_RDWR|O_SYNC) ) < 0) {
+	    	perror("can't open /dev/mem: ");
+	      	return;
+	}
+	uint32_t *timereg =
+		(uint32_t*) mmap(NULL,// Any adddress in our space will do
+		(4*1024),   // Map length
+		PROT_READ|PROT_WRITE,  // Enable r/w on GPIO registers.
+		MAP_SHARED,
+	        mem_fd,                // File to map
+                0x3F000000  + 0x3000 // Offset to bcm register
+               	);	
+  	close(mem_fd);  
+    	if (timereg == NULL) { return;}
+      	timer1Mhz = timereg + 1;
+
+      	const unsigned ROW_A = 13, LAT = 18, CLK = 19, OE = 20; 
   vector<int> pins = {ROW_A,14,15,16,17,22,23,24,25,26,27,LAT,CLK,OE,5,6,7,8,9,10};
   set_output_pins(pins);
   uint32_t frame = 0, cube_off_count = 0, half_width = PANEL_WIDTH*CHAIN_LENGTH/2;
@@ -65,6 +83,7 @@ void cube_thread() {
   auto start = chrono::high_resolution_clock::now();
   uint32_t *top_ptr = binary_color, *bot_ptr = (binary_color+32*PANEL_WIDTH*CHAIN_LENGTH);
   uint32_t delays[] = {1,2,4,8,16,32,64,128}; 
+  //uint32_t delays[] = {0,1,2,4,8,16,32,64}; 
   while (!FINISHED) {
 	if (!CUBE_ON && cube_off_count > 5) { 
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -124,8 +143,18 @@ void cube_thread() {
 			GPIO_CLR = 1<<LAT;
 			
 			GPIO_CLR = 1<<OE;
-			unsigned nano = static_cast<unsigned>(delays[modulation]*1550);
-			std::this_thread::sleep_for(std::chrono::nanoseconds(nano));
+			uint32_t start = *timer1Mhz;
+			while (*timer1Mhz - start <= delays[modulation]) {
+				//std::this_thread::sleep_for(std::chrono::nanoseconds(100));
+			}
+			/*if (modulation >= 5) {
+				auto error = *timer1Mhz-start;
+				if (error-delays[modulation] > 5) {
+					std::cout << "ERROR: " << error << "(" << delays[modulation] << ")" << std::endl;
+				}
+			}*/
+			//unsigned nano = static_cast<unsigned>(delays[modulation]*1250);
+			//std::this_thread::sleep_for(std::chrono::nanoseconds(nano));
 			GPIO_SET = 1<<OE;
 		}
 	}
