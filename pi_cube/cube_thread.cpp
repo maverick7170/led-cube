@@ -83,32 +83,19 @@ void cube_thread() {
   auto start = chrono::high_resolution_clock::now();
   uint32_t *top_ptr = binary_color, *bot_ptr = (binary_color+32*PANEL_WIDTH*CHAIN_LENGTH);
   uint32_t delays[] = {1,2,4,8,16,32,64,128}; 
-  //uint32_t delays[] = {0,1,2,4,8,16,32,64}; 
   while (!FINISHED) {
-	if (!CUBE_ON && cube_off_count > 5) { 
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
-		continue; 
-	} 
-	else if (!CUBE_ON) { ++cube_off_count; }
-	else if (CUBE_ON) { cube_off_count = 0;}
-
 	for (uint32_t row = 0; row < 32; ++row) {
 		uint32_t offset = row*PANEL_WIDTH*CHAIN_LENGTH;
 		for (int modulation = 0; modulation < 8; ++modulation) {
-			//GPIO_SET = 1<<OE | 1<<LAT;
-			//GPIO_SET = 1<<OE; GPIO_CLR = 1<<LAT;
 			GPIO_SET = 1<<LAT;
 			for (uint32_t ii = 0; ii < half_width; ++ii) {
 				if (!CUBE_ON) {
 					GPIO_CLR=0x7E003F<<5;
 				} else {
-					uint32_t top_j1 = 128u<<8;
-					uint32_t bot_j1 = 128u<<16;
-					uint32_t top_j2 = 128u<<16;
-					uint32_t bot_j2 = 128u;
-					//uint32_t top_j1 = *(top_ptr+ii+offset+half_width);
-				        //uint32_t bot_j1 = *(bot_ptr+ii+offset+half_width);
-					//uint32_t top_j2 = *(top_ptr+ii+offset), bot_j2 = *(bot_ptr+ii+offset);
+					//uint32_t top_j1 = 128u<<8, bot_j1 = 128u<<16, top_j2 = 128u<<16, uint32_t bot_j2 = 128u;
+					uint32_t top_j1 = *(top_ptr+ii+offset+half_width);
+				        uint32_t bot_j1 = *(bot_ptr+ii+offset+half_width);
+					uint32_t top_j2 = *(top_ptr+ii+offset), bot_j2 = *(bot_ptr+ii+offset);
 					uint32_t flag = ((top_j2 >> modulation) & 0x1u) |
 							((top_j2 >> (7+modulation)) & 0x2u) |
 							((top_j2 >> (14+modulation)) & 0x4u) |
@@ -138,23 +125,13 @@ void cube_thread() {
 			}
 			GPIO_CLR = 1<<CLK;
 			GPIO_SET = row<<ROW_A;
-			GPIO_CLR = ((~row) & (uint32_t)0x1F)<<ROW_A;
-			
+			GPIO_CLR = ((~row) & (uint32_t)0x1F)<<ROW_A;	
 			GPIO_CLR = 1<<LAT;
-			
 			GPIO_CLR = 1<<OE;
 			uint32_t start = *timer1Mhz;
 			while (*timer1Mhz - start <= delays[modulation]) {
 				//std::this_thread::sleep_for(std::chrono::nanoseconds(100));
 			}
-			/*if (modulation >= 5) {
-				auto error = *timer1Mhz-start;
-				if (error-delays[modulation] > 5) {
-					std::cout << "ERROR: " << error << "(" << delays[modulation] << ")" << std::endl;
-				}
-			}*/
-			//unsigned nano = static_cast<unsigned>(delays[modulation]*1250);
-			//std::this_thread::sleep_for(std::chrono::nanoseconds(nano));
 			GPIO_SET = 1<<OE;
 		}
 	}

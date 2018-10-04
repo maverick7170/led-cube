@@ -59,7 +59,7 @@ public:
 		b2ParticleSystemDef particleSystemDef;
 		m_particleSystem = world.CreateParticleSystem(&particleSystemDef);
 		m_particleSystem->SetRadius(0.3f);
-		m_particleSystem->SetMaxParticleCount(10000);
+		m_particleSystem->SetMaxParticleCount(5000);
 		m_particleSystem->SetDestructionByAge(true);
 		m_particleSystem->SetDamping(0.5f);
 	}
