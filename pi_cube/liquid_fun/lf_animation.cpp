@@ -50,7 +50,8 @@ void LiquidFunAnimation::CreateWalls() {
 
 	//Left Wall
 	for (int ii = 0; ii < 6; ++ii) {
-		coords = {b2Vec2(0+ii*64,64.),b2Vec2(1+ii*64,64.),b2Vec2(1+ii*64,0.),b2Vec2(0+ii*64,0.)};
+		int offset = (ii > 0) ? -2 : 0;
+		coords = {b2Vec2(offset+ii*64,64.),b2Vec2(1+ii*64,64.),b2Vec2(1+ii*64,0.),b2Vec2(offset+ii*64,0.)};
 		wallShape.Set(coords.data(),coords.size());
 		walls->CreateFixture(&wallShape,0.f);
 	}
