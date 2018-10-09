@@ -79,7 +79,7 @@ void cube_thread() {
 	vector<int> pins = {ROW_A,14,15,16,17,22,23,24,25,26,27,LAT,CLK,OE,5,6,7,8,9,10};
 	set_output_pins(pins);
 	
-	uint32_t frame = 0, cube_off_count = 0, half_width = PANEL_WIDTH*CHAIN_LENGTH/2;
+	uint32_t frame = 0, half_width = PANEL_WIDTH*CHAIN_LENGTH/2;
 	chrono::duration<double,std::milli> elapsed;
 	auto start = chrono::high_resolution_clock::now();
 	uint32_t *top_ptr = binary_color, *bot_ptr = (binary_color+32*PANEL_WIDTH*CHAIN_LENGTH);

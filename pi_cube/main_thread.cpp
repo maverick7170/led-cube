@@ -84,7 +84,6 @@ int main(int argc, char **argv) {
   	std::cout << "MAIN THREAD: Starting udp server" << std::endl;
   	UDPServer server(8080);
   
-  	//ParticleSim *psim = nullptr;
 
   	off_t control_shm_length = 4;
   	int control_shm_fd = shm_open("/control_shm",O_RDWR | O_CREAT,0666);
@@ -93,9 +92,17 @@ int main(int argc, char **argv) {
 
   	uint32_t *control_shm = (uint32_t *)mmap(NULL,control_shm_length,PROT_READ|PROT_WRITE,MAP_SHARED,control_shm_fd,0);
   	*control_shm = 5;
-  
+
+
+  	std::cout << "MAIN THREAD: Starting cube thread" << std::endl;
   	thread t1(cube_thread);
-  	int policy = SCHED_FIFO;
+
+  	std::cout << "MAIN THREAD: Setting thread priorities" << std::endl;
+	std::ofstream fid("/proc/sys/kernel/sched_rt_runtime_us",std::ofstream::out);
+  	fid << "-1";
+	fid.close();
+
+	int policy = SCHED_FIFO;
   	sched_param sch_params;
   	sch_params.sched_priority = 99;
   	if (pthread_setschedparam(t1.native_handle(), policy, &sch_params) ) {

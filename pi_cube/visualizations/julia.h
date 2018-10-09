@@ -29,17 +29,23 @@
 class JULIA : public VISUALIZER {
 public:
 	JULIA(BNO080 &imu_) : VISUALIZER(imu_), juliaset(128,64) {
-		juliaset.set_params(0,0,3.75,3.75/2,0.7885*std::exp(a*1i));
-		//juliaset.set_params(0,0,3.75,3.75/2,1i);
+		//juliaset.set_params(0,0,3.75,3.75/2,0.7885*std::exp(a*1i));
+		//juliaset.set_params(0,0,3.3,3.3/2,-0.7269+0.1889i);
+		juliaset.set_params(0,0,3.3,3.3/2,-0.8+0.156i);
+		//juliaset.set_params(0,0,3.3,3.3,-0.4+0.6i);
 	} 
 	void start(uint32_t *led_data) {
 		std::fill(led_data,led_data+24576,0);
 	}
 	void run(uint32_t *led_data) {
-		if (run_index % 10 == 0) {
+		if (run_index % 50 == 0) {
 			double_buffer.fill(background_color);
-	       		a += 0.01;
-			juliaset.c = 0.7885*exp(a*1i);
+	       		//a += 0.01;
+			//juliaset.c = 0.7885*exp(a*1i);
+			
+			juliaset.m_width /= 1.025;
+			juliaset.m_height /= 1.025;
+
 			juliaset.update(double_buffer.data());
 			memcpy(led_data,double_buffer.data(),24576*4);
 		}
