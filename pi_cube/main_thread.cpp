@@ -38,7 +38,9 @@
 #include "visualizations/gator.h"
 #include "visualizations/sparky.h"
 #include "visualizations/logo.h"
+#include "visualizations/julia.h"
 #include "visualizations/udp.h"
+
 #include "imu/bno080.h"
 #include "gpio/gpio.h"
 #include "udp/UDPServer.h"
@@ -90,7 +92,7 @@ int main(int argc, char **argv) {
 	assert(control_shm_fd > 0);
 
   	uint32_t *control_shm = (uint32_t *)mmap(NULL,control_shm_length,PROT_READ|PROT_WRITE,MAP_SHARED,control_shm_fd,0);
-  	*control_shm = 4;
+  	*control_shm = 5;
   
   	thread t1(cube_thread);
   	int policy = SCHED_FIFO;
@@ -107,11 +109,12 @@ int main(int argc, char **argv) {
   	}
 	
   	uint32_t main_loop_iter = 0, mode = 0, next_mode = 0;
-	std::array<VISUALIZER*,6> visualizer = {new VISUALIZER(imu),
+	std::array<VISUALIZER*,7> visualizer = {new VISUALIZER(imu),
 						new DICE(imu),
 						new LOGO(imu,"/usr/local/led_samples/ASEE_Combo_Bravo.txt"),
 						new GATOR(imu),
 						new SPARKY(imu),
+						new JULIA(imu),
 						new UDP(imu,server)
 						};
 	while (1) {
