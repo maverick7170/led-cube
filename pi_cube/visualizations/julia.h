@@ -28,24 +28,47 @@
 
 class JULIA : public VISUALIZER {
 public:
-	JULIA(BNO080 &imu_) : VISUALIZER(imu_), juliaset(128,64) {
-		//juliaset.set_params(0,0,3.75,3.75/2,0.7885*std::exp(a*1i));
-		//juliaset.set_params(0,0,3.3,3.3/2,-0.7269+0.1889i);
-		juliaset.set_params(0,0,3.3,3.3/2,-0.8+0.156i);
-		//juliaset.set_params(0,0,3.3,3.3,-0.4+0.6i);
+	JULIA(BNO080 &imu_, int mode_) : VISUALIZER(imu_), juliaset(128,64), mode(mode_) {
 	} 
 	void start(uint32_t *led_data) {
 		std::fill(led_data,led_data+24576,0);
+		switch (mode) {
+			case 0: 
+				juliaset.set_window(128,64);
+				juliaset.set_params(0,0,3.75,3.75/2,0.7885*std::exp(a_param*1i));
+				break;
+			case 1:
+				juliaset.set_window(128,64);
+				juliaset.set_params(0,0,3.3,3.3/2,-0.7269+0.1889i);
+				break;
+			case 2:
+				juliaset.set_window(128,64);
+				juliaset.set_params(0,0,3.3,3.3/2,-0.8+0.156i);
+				break;
+			case 3:
+				juliaset.set_window(64,64);
+				juliaset.set_params(0,0,3.3,3.3,-0.4+0.6i);
+				break;
+		}
 	}
 	void run(uint32_t *led_data) {
-		if (run_index % 50 == 0) {
+		if (run_index % 20 == 0) {
 			double_buffer.fill(background_color);
-	       		//a += 0.01;
-			//juliaset.c = 0.7885*exp(a*1i);
-			
-			juliaset.m_width /= 1.025;
-			juliaset.m_height /= 1.025;
-
+			switch (mode) {
+	       			case 0:
+					a_param += 0.015;
+					juliaset.c = 0.7885*exp(a_param*1i);
+					break;
+				case 1: case 2: case 3:
+					juliaset.m_width /= zoom_factor;
+					juliaset.m_height /= zoom_factor;
+					if (juliaset.m_width <= 0.8) {
+						zoom_factor = 1./zoom_factor;
+					} else if (juliaset.m_width >= 30) {
+						zoom_factor = 1./zoom_factor;
+					}	
+					break;
+			}
 			juliaset.update(double_buffer.data());
 			memcpy(led_data,double_buffer.data(),24576*4);
 		}
@@ -54,9 +77,10 @@ public:
 	}
 private:
 	JuliaSet juliaset;
-	double a = 0;
+	int mode;
+	double a_param = 0, zoom_factor = 1.025;
 	std::array<std::array<uint32_t,24576>,10> pixels;
-	uint32_t background_color = 0;
+	uint32_t background_color = 137u<<16;
 	const int PANEL_WIDTH = 64, CHAIN_LENGTH = 6;
 	size_t ticker = 0;
 };

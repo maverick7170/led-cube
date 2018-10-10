@@ -27,23 +27,19 @@
 #include "lf_animation.h"
 
 std::mt19937 engine(time(0));
-int uniform_int(int low, int high) {
-	std::uniform_int_distribution<int> dist(low,high);
-	return dist(engine);
-}	
 
 class Explosion {
 public:
-	Explosion(b2ParticleSystem *m_particleSystem, const b2Vec2 center) {
+	Explosion(b2ParticleSystem *m_particleSystem, const b2Vec2 center) : rand_color(0,255), rand_radius(1,4), rand_dir(-30,30), rand_life(1,5)  {
 		b2CircleShape circle;
-		circle.m_radius = uniform_int(1,5);	
+		circle.m_radius = rand_radius(engine);	
 		b2ParticleGroupDef pd;
 		//pd.groupFlags = b2_rigidParticleGroup | b2_solidParticleGroup;
 		//b2_powderParticle | b2_springParticle
 		pd.flags = b2_powderParticle |  b2_colorMixingParticle;
 		pd.shape = &circle;
 		pd.position = center;
-		pd.color.Set(uniform_int(0,255), uniform_int(0,255), uniform_int(0,255), 255);
+		pd.color.Set(rand_color(engine),rand_color(engine),rand_color(engine),255);
 		pd.userData = (void*)1;
 		pd.linearVelocity = b2Vec2();
 		m_group = m_particleSystem->CreateParticleGroup(pd);
@@ -52,19 +48,20 @@ public:
 		b2Vec2 *pos = m_particleSystem->GetPositionBuffer();
 		b2Vec2 *vel = m_particleSystem->GetVelocityBuffer();
 		for (auto ii = start_index; ii < start_index + m_group->GetParticleCount(); ++ii) {
-			m_particleSystem->SetParticleLifetime(ii,uniform_int(1,5));
-			vel[ii] = pos[ii] - center;
-			vel[ii] *= uniform_int(0,1);
+			m_particleSystem->SetParticleLifetime(ii,rand_life(engine));
+			vel[ii] = (pos[ii] - center)*rand_dir(engine);
 		}
 	}
 private:
 	b2ParticleGroup *m_group;
+	std::uniform_int_distribution<> rand_color, rand_radius,rand_dir;
+        std::uniform_real_distribution<double> rand_life;
 };
 
 class LFSparky : public LiquidFunAnimation {
 public:
-	LFSparky(size_t width, size_t height, size_t bodies, uint32_t *pixels) : LiquidFunAnimation(width, height, b2Vec2(0,0), pixels) {
-		b2PolygonShape pentagon;
+	LFSparky(size_t width, size_t height, size_t bodies, uint32_t *pixels) : LiquidFunAnimation(width, height, b2Vec2(0,0), pixels), engine(time(0)), rand_x(2,382), rand_y(2,62), rand_percent(0,1) {
+		/*b2PolygonShape pentagon;
 		b2Vec2 pentagon_[5];
 		float radius = 3.0, angle = 0;
 		for (auto ii = 0; ii < 5; ++ii, angle += 72) {
@@ -89,18 +86,24 @@ public:
 				fixtureDef.userData = (void*)1;
 				dynamicBody->CreateFixture(&fixtureDef);
 			}
-		}	
+		}*/
 	}
 
 	void ProcessContacts() {
+		if (rand_percent(engine) <= 0.1) {
+			b2Vec2 point(rand_x(engine),rand_y(engine));
+   			Explosion(m_particleSystem,point);
+		}
 		//std::cout << "Number of contacts: " << contactL.m_contactPoints.size() << std::endl;
 	   	//return contactL.m_contactPoints;
-   		if ( contactL.m_contactPoints.size() ) {
-   			explosions.push_back( Explosion(m_particleSystem,contactL.m_contactPoints[0]) );
-   		}
+   		//if ( contactL.m_contactPoints.size() ) {
+   		//	explosions.push_back( Explosion(m_particleSystem,contactL.m_contactPoints[0]) );
+   		//}
 	}
 private:
 	std::vector<Explosion> explosions;
+	std::mt19937 engine;
+	std::uniform_real_distribution<double> rand_x,rand_y,rand_percent;
 };
 
 #endif

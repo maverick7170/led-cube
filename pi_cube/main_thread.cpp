@@ -91,7 +91,7 @@ int main(int argc, char **argv) {
 	assert(control_shm_fd > 0);
 
   	uint32_t *control_shm = (uint32_t *)mmap(NULL,control_shm_length,PROT_READ|PROT_WRITE,MAP_SHARED,control_shm_fd,0);
-  	*control_shm = 5;
+  	*control_shm = 4;
 
 
   	std::cout << "MAIN THREAD: Starting cube thread" << std::endl;
@@ -121,7 +121,7 @@ int main(int argc, char **argv) {
 						new LOGO(imu,"/usr/local/led_samples/ASEE_Combo_Bravo.txt"),
 						new GATOR(imu),
 						new SPARKY(imu),
-						new JULIA(imu),
+						new JULIA(imu,0),
 						new UDP(imu,server)
 						};
 	while (1) {

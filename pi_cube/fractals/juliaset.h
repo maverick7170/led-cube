@@ -35,8 +35,14 @@ uint32_t jet_b[50] = {137, 157, 177, 196, 216, 235, 255, 255, 255, 255, 255, 255
 
 class JuliaSet {
 public:
-	JuliaSet(int WINDOW_WIDTH_, int WINDOW_HEIGHT_) : WINDOW_WIDTH(WINDOW_WIDTH_), WINDOW_HEIGHT(WINDOW_HEIGHT_), sequence(WINDOW_HEIGHT,std::vector<std::complex<double>>(WINDOW_WIDTH,0)) {
+	JuliaSet(int WINDOW_WIDTH_, int WINDOW_HEIGHT_) : WINDOW_WIDTH(WINDOW_WIDTH_), WINDOW_HEIGHT(WINDOW_HEIGHT_), sequence(WINDOW_WIDTH*WINDOW_HEIGHT,0), dirty(WINDOW_WIDTH*WINDOW_HEIGHT,false) {
 	
+	}
+	void set_window(int WINDOW_WIDTH_, int WINDOW_HEIGHT_) {
+		WINDOW_WIDTH = WINDOW_WIDTH_;
+		WINDOW_HEIGHT = WINDOW_HEIGHT_;
+		sequence.resize(WINDOW_WIDTH*WINDOW_HEIGHT);
+		dirty.resize(WINDOW_WIDTH*WINDOW_HEIGHT);	
 	}
 	void set_params(double cx, double cy, double width, double height, std::complex<double> c_) {
 		m_cx = cx; 
@@ -50,38 +56,47 @@ public:
 		color_mod = iterations/50;
 	}
 	void update(uint32_t pixels[]) {
-		for (auto &s : sequence) { std::fill(s.begin(),s.end(),0); }        
+		std::fill(sequence.begin(),sequence.end(),0);        
+		std::fill(dirty.begin(),dirty.end(),false);        
 		double step_size = m_width/WINDOW_WIDTH;   
 		auto im = m_cy-m_height/2;
+		size_t zz = 0;
 		for (int ii = 0; ii < WINDOW_HEIGHT; ++ii) {
 			auto index = ii*384+64;
 			auto re = m_cx-m_width/2;
             		for (int jj = 0; jj < WINDOW_WIDTH; ++jj) {
                 		for (int kk = 0; kk < iterations; ++kk) {
-                    			if (kk == 0) { sequence[ii][jj] = re + im*1i; }
-                    			if (!pixels[index]) {
-                        			sequence[ii][jj] = sequence[ii][jj]*sequence[ii][jj] + c;
+                    			if (kk == 0) { sequence[zz] = re + im*1i; }
+                    			if (!dirty[zz]) {
+                        			sequence[zz] = sequence[zz]*sequence[zz] + c;
                         			//if ( abs(sequence[ii][jj].real()) >= 2 || abs(sequence[ii][jj].imag()) >= 2) {
-                        			if (abs(sequence[ii][jj]) >= 2) {
+                        			if (abs(sequence[zz]) >= 2) {
                             				int offset = kk/color_mod;
                             				pixels[index] = jet_r[offset] | (jet_g[offset] << 8) | (jet_b[offset] << 16);
                             				pixels[index+128] = jet_r[offset] | (jet_g[offset] << 8) | (jet_b[offset] << 16);
-                            				break;
+                            				dirty[zz] = true;
+							break;
                         			}
                     			}
                 		}
+				if (!dirty[zz]) {
+					pixels[index] = 0;//255u | 255u << 8 | 255u << 16;
+					pixels[index+128] = 0;//255u | 255u << 8 | 255u << 16;
+				}
                 		re += step_size;
 				++index;
+				++zz;
             		}
             		im += step_size;
         	}
     	}    
 public:
-	const int WINDOW_WIDTH, WINDOW_HEIGHT;
+	int WINDOW_WIDTH, WINDOW_HEIGHT;
 	double m_cx, m_cy, m_width, m_height;
 	std::complex<double> c;
 	int iterations = 50, color_mod = iterations/50;
 private:
-	std::vector< std::vector<std::complex<double>> > sequence;
+	std::vector<std::complex<double>> sequence;
+	std::vector<bool> dirty;	
 };
 #endif
