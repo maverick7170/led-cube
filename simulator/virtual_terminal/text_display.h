@@ -69,26 +69,6 @@ public:
 																			 cursor_height(font_size/2) {
 		Projection = glm::ortho(0.0f, static_cast<float>(window.getSize().x), 0.0f, static_cast<float>(window.getSize().y), -1.f, 100.f);
 		max_line_length = window.getSize().x/font_size*2;
-		font.getTexture(font_size).copyToImage().saveToFile("blah33.png");
-
-
-		/*
-		sf::Text user_input;
-		user_input.setFont(font);
-		user_input.setCharacterSize(font_size);
-		user_input.setFillColor(sf::Color::White);
-		std::string ascii = "><";
-		for (char ii = 33; ii <= 126; ++ii) { 
-			//ascii.push_back(ii); 
-		} 
-		user_input.setString(ascii);
-		for (auto ii = 0; ii < 10; ++ii) {
-			window.clear();
-			window.draw(user_input);
-			window.display();
-		}
-		window.clear();
-		*/
 		
 		auto g = font.getGlyph('a', font_size, false);
 		character_width = g.advance;

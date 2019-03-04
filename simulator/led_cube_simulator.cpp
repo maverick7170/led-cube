@@ -64,51 +64,31 @@ std::vector<GLfloat> *led_color = nullptr;
 void renderThread(sf::RenderWindow &window, Terminal &terminal);
 void udpThread();
 std::string resourcePath(void);
+void CreateFontASCII(sf::Font &font, const int font_size, std::string font_filename);
+
 
 ////////////////////////////////////////////////////////////
 // Entry point of application
 ////////////////////////////////////////////////////////////
 int main(int argc, char* argv[]) {	
-    //Linux X11 multithreading
     #ifdef UNIX
     XInitThreads();
     #endif
 
-    //Handle font issues for each os
     // Setup render window at 24 bits with verticle sync enabled
     const size_t SCREEN_WIDTH = sf::VideoMode::getDesktopMode().width; 
     const size_t WINDOW_WIDTH = SCREEN_WIDTH/1.5, WINDOW_HEIGHT = WINDOW_WIDTH/(1280./720.); 
-    const int font_size = 32*WINDOW_WIDTH/1280.;
-    #ifdef XCODE
-    const std::string font_filename = resourcePath()+"UbuntuMono-R.ttf";
-    #else
-    const std::string font_filename = "resources/UbuntuMono-R.ttf";
-    #endif
-
 
     //Force SFML to create Font sheet since we are using native OpenGL calls    
-    sf::Font font; if (!font.loadFromFile(font_filename)) { }
-    sf::RenderTexture w; w.create(800,800);
-    w.setActive(true);
-    sf::Text user_input;
-    user_input.setFont(font);
-    user_input.setCharacterSize(font_size);
-    user_input.setFillColor(sf::Color::White);
-    std::string ascii;
-    for (char ii = 33; ii <= 126; ++ii) { 
-        ascii.push_back(ii); 
-    } 
-    for (const auto ii : {1,2,3,4} ) {
-        user_input.setString(ascii);
-        w.clear();
-        w.draw(user_input);
-        w.display();    
-    }
-    w.setActive(false);
-    font.getTexture(font_size).copyToImage().saveToFile("blah22.png");
+    sf::Font font; 
+    const int font_size = 32*WINDOW_WIDTH/1280.;
+    #ifdef XCODE
+    CreateFontASCII(font,font_size,resourcePath()+"UbuntuMono-R.ttf");
+    #else
+    CreateFontASCII(font,font_size,"resources/UbuntuMono-R.ttf");
+    #endif
 
-
-    //std::cout << "Setting window to: " << WINDOW_WIDTH << "," << WINDOW_HEIGHT << std::endl;
+    //OpenGL specific settings
     sf::ContextSettings contextSettings;
     contextSettings.depthBits = 24;
     contextSettings.stencilBits = 8;
@@ -129,7 +109,6 @@ int main(int argc, char* argv[]) {
     }
     #endif
 
-    
     //Virtual terminal to store user's commands and track history
     Terminal terminal(window,font,font_size);
     terminal.new_line();
@@ -236,3 +215,20 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }	
+
+void CreateFontASCII(sf::Font &font, const int font_size, std::string font_filename) {
+    if (!font.loadFromFile(font_filename)) { return; }
+    sf::RenderTexture w; w.create(800,800);
+    w.setActive(true);
+    sf::Text user_input;
+    user_input.setFont(font);
+    user_input.setCharacterSize(font_size);
+    user_input.setFillColor(sf::Color::White);
+    std::string ascii(94, ' ');
+    std::generate(ascii.begin(), ascii.end(), [n = 33] () mutable { return n++; });
+    user_input.setString(ascii);
+    w.clear();
+    w.draw(user_input);
+    w.display();    
+    w.setActive(false);
+}
