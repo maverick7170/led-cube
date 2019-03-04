@@ -3,7 +3,7 @@ project (LED-CUBE-SIMULATOR)
 
 set (SIMULATOR_VERSION_MAJOR 1)
 set (SIMULATOR_VERSION_MINOR 0)
-set (CMAKE_CXX_STANDARD 14)
+set (CMAKE_CXX_STANDARD 17)
 set (EXAMPLES "YES")
 set (CMAKE_INSTALL_PREFIX ".")
 
@@ -66,6 +66,7 @@ if ((WIN32 OR UNIX) AND NOT APPLE)
 endif()
 if (UNIX)
 	set(PTHREAD -lpthread)
+	set(X11 -lX11)
 	add_definitions(-DUNIX)
 endif()
 if (APPLE)
@@ -77,7 +78,7 @@ endif()
 
 add_executable(led_cube_simulator led_cube_simulator.cpp udp_server.cpp render_thread.cpp virtual_terminal/py.cpp ${ICON})
 target_include_directories(led_cube_simulator PRIVATE ${PYTHON_INCLUDE_DIRS} ${SFML-INCLUDES} ${GLEW-INCLUDES} ${GLM})
-target_link_libraries(led_cube_simulator ${SFML-GRAPHICS} ${SFML-WINDOW} ${SFML-SYSTEM} ${SFML-NETWORK} ${OPENGL} ${GLEW} ${PYTHON_LIBRARIES} ${PTHREAD})
+target_link_libraries(led_cube_simulator ${SFML-GRAPHICS} ${SFML-WINDOW} ${SFML-SYSTEM} ${SFML-NETWORK} ${OPENGL} ${GLEW} ${PYTHON_LIBRARIES} ${PTHREAD} ${X11})
 
 install (TARGETS led_cube_simulator DESTINATION "../")
 

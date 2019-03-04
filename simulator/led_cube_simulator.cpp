@@ -40,6 +40,9 @@
 #include "virtual_terminal/terminal.h"
 #include "virtual_terminal/text_display.h"
 
+#ifdef UNIX
+#include <X11/Xlib.h>
+#endif
 
 ////////////////////////////////////////////////////////////
 // Globals
@@ -66,10 +69,46 @@ std::string resourcePath(void);
 // Entry point of application
 ////////////////////////////////////////////////////////////
 int main(int argc, char* argv[]) {	
+    //Linux X11 multithreading
+    #ifdef UNIX
+    XInitThreads();
+    #endif
+
+    //Handle font issues for each os
     // Setup render window at 24 bits with verticle sync enabled
     const size_t SCREEN_WIDTH = sf::VideoMode::getDesktopMode().width; 
     const size_t WINDOW_WIDTH = SCREEN_WIDTH/1.5, WINDOW_HEIGHT = WINDOW_WIDTH/(1280./720.); 
-    std::cout << "Setting window to: " << WINDOW_WIDTH << "," << WINDOW_HEIGHT << std::endl;
+    const int font_size = 32*WINDOW_WIDTH/1280.;
+    #ifdef XCODE
+    const std::string font_filename = resourcePath()+"UbuntuMono-R.ttf";
+    #else
+    const std::string font_filename = "resources/UbuntuMono-R.ttf";
+    #endif
+
+
+    //Force SFML to create Font sheet since we are using native OpenGL calls    
+    sf::Font font; if (!font.loadFromFile(font_filename)) { }
+    sf::RenderTexture w; w.create(800,800);
+    w.setActive(true);
+    sf::Text user_input;
+    user_input.setFont(font);
+    user_input.setCharacterSize(font_size);
+    user_input.setFillColor(sf::Color::White);
+    std::string ascii;
+    for (char ii = 33; ii <= 126; ++ii) { 
+        ascii.push_back(ii); 
+    } 
+    for (const auto ii : {1,2,3,4} ) {
+        user_input.setString(ascii);
+        w.clear();
+        w.draw(user_input);
+        w.display();    
+    }
+    w.setActive(false);
+    font.getTexture(font_size).copyToImage().saveToFile("blah22.png");
+
+
+    //std::cout << "Setting window to: " << WINDOW_WIDTH << "," << WINDOW_HEIGHT << std::endl;
     sf::ContextSettings contextSettings;
     contextSettings.depthBits = 24;
     contextSettings.stencilBits = 8;
@@ -78,7 +117,7 @@ int main(int argc, char* argv[]) {
     contextSettings.minorVersion = 6;
     contextSettings.attributeFlags = sf::ContextSettings::Core;
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "LED Cube Simulator", sf::Style::Default, contextSettings);
-    window.setVerticalSyncEnabled(true);
+    //window.setVerticalSyncEnabled(true);
     
     //Initialize glew if needed
     #ifdef USE_GLEW
@@ -90,21 +129,8 @@ int main(int argc, char* argv[]) {
     }
     #endif
 
-    //Handle font issues for each os
-    #ifdef XCODE
-    const std::string font_filename = resourcePath()+"UbuntuMono-R.ttf";
-    #else
-    const std::string font_filename = "resources/UbuntuMono-R.ttf";
-    #endif
-    #if defined(UNIX) && !defined(APPLE)
-    const int font_size = 20*WINDOW_WIDTH/1280.;
-    #else
-    const int font_size = 32*WINDOW_WIDTH/1280.;
-    #endif
-
+    
     //Virtual terminal to store user's commands and track history
-    sf::Font font;
-    if (!font.loadFromFile(font_filename)) { }
     Terminal terminal(window,font,font_size);
     terminal.new_line();
 

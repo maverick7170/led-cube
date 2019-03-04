@@ -40,11 +40,10 @@ public:
     /// Detials
     ///
     ////////////////////////////////////////////////////////////	
-	Terminal(sf::RenderWindow &window, sf::Font &font, int font_size) : display(window,font,font_size) {
-        display.load_glyphs(font_size);
-        display.setup_vao();
-        max_line_length = window.getSize().x/font_size*2;
-		vertical_line_gap = font_size*0.8;
+	Terminal(sf::RenderWindow &window, sf::Font &font_, int font_size_) : display(window,font_,font_size_) {
+        font_.getTexture(font_size_).copyToImage().saveToFile("blah44.png");
+        max_line_length = window.getSize().x/font_size_*2;
+		vertical_line_gap = font_size_*0.8;
     }
 
     ////////////////////////////////////////////////////////////

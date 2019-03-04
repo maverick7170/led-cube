@@ -63,23 +63,33 @@ public:
     /// \return type
     ///
     //////////////////////////////////////////////////////////// 	
-	TextDisplay(sf::RenderWindow &window, sf::Font &font_, int font_size_) : font(font_), 
-																			 font_size(font_size_), 
-																			 texture_font(font.getTexture(font_size_)),  
+	TextDisplay(sf::RenderWindow &window, sf::Font &font_, int font_size_) :  
+																			 font(font_), 
+																			 font_size(font_size_),  
 																			 cursor_height(font_size/2) {
 		Projection = glm::ortho(0.0f, static_cast<float>(window.getSize().x), 0.0f, static_cast<float>(window.getSize().y), -1.f, 100.f);
 		max_line_length = window.getSize().x/font_size*2;
+		font.getTexture(font_size).copyToImage().saveToFile("blah33.png");
+
+
+		/*
+		sf::Text user_input;
 		user_input.setFont(font);
 		user_input.setCharacterSize(font_size);
 		user_input.setFillColor(sf::Color::White);
-		std::string ascii;
+		std::string ascii = "><";
 		for (char ii = 33; ii <= 126; ++ii) { 
-			ascii.push_back(ii); 
+			//ascii.push_back(ii); 
 		} 
 		user_input.setString(ascii);
-		window.draw(user_input);
+		for (auto ii = 0; ii < 10; ++ii) {
+			window.clear();
+			window.draw(user_input);
+			window.display();
+		}
 		window.clear();
-
+		*/
+		
 		auto g = font.getGlyph('a', font_size, false);
 		character_width = g.advance;
 		character_height = character_width*1.2f;
@@ -98,11 +108,14 @@ public:
 		glUniformMatrix4fv(mvp,1,GL_FALSE,&Projection[0][0]);
 
 		//Handle texture coordinates outside of 0 to 1
-		sf::Texture::bind(&texture_font);
+		sf::Texture::bind(&font.getTexture(font_size));
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
   		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-  		float color[] = { 1.0f, 0.0f, 0.0f, 0.5f };
-		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, color);
+  		//float color[] = { 1.0f, 0.0f, 0.0f, 0.5f };
+		//glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, color);
+
+		this->load_glyphs();
+        this->setup_vao();
 	}
 
     ////////////////////////////////////////////////////////////
@@ -113,10 +126,11 @@ public:
     /// \return type
     ///
     //////////////////////////////////////////////////////////// 
-	void load_glyphs(size_t font_size) {
+	void load_glyphs() {
 		for (size_t ii = 32; ii <= 126; ++ii) { 
 			auto g = font.getGlyph(static_cast<char>(ii), font_size, false);
-			float text_height = texture_font.getSize().y, text_width = texture_font.getSize().x;
+			auto ss = font.getTexture(font_size).getSize();
+			float text_height = ss.y, text_width = ss.x;
 			auto left = g.textureRect.left/text_width, top = g.textureRect.top/text_height, height = g.textureRect.height/text_height, width = g.textureRect.width/text_width;
 			all_text[ii].coords[0] = sf::Vector2<float>(left,top);
 			all_text[ii].coords[1] = sf::Vector2<float>(left,top+height);
@@ -131,6 +145,7 @@ public:
 		for (size_t ii = 0; ii < 4; ++ii) {
 			all_text[static_cast<int>(' ')].coords[ii] = sf::Vector2<float>(1,1);
 		}
+		font.getTexture(font_size).copyToImage().saveToFile("blah55.png");
 	}
 
     ////////////////////////////////////////////////////////////
@@ -180,7 +195,7 @@ public:
     //////////////////////////////////////////////////////////// 
 	void draw(std::string next_line, float cx, float cy, float cursor_x) {
 		shader.useShader();
-		sf::Texture::bind(&texture_font);
+		sf::Texture::bind(&font.getTexture(font_size));
 		glBindVertexArray(vao);
 		size_t num_of_vertices = std::min(next_line.size(),max_line_length-3);
 		size_t ii = 0, offset;
@@ -241,11 +256,10 @@ public:
 private:
     ////////////////////////////////////////////////////////////
     // Private Member data
-    //////////////////////////////////////////////////////////// 	
-	sf::Font font;
+    //////////////////////////////////////////////////////////// 
+    sf::Font &font;	
+	//const sf::Texture &font_texture;
 	int font_size;
-	const sf::Texture &texture_font;
-	sf::Text user_input;
 	float character_width, character_height, baseline, a_bounds_top;
 	GLuint vao;
 	GLuint vbo[3];

@@ -7,8 +7,4 @@ out vec2 vs_color;
 void main() {
 	gl_Position = mvp*vec4(position, 1.0f);
 	vs_tex_coord = in_tex_coord;
-	vs_color[0] = 0;
-	if (in_tex_coord[0] == 0.f && in_tex_coord[1] == 0.f) {
-		vs_color[0] = 1;
-	}
 }

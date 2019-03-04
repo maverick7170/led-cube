@@ -63,7 +63,9 @@ void renderThread(sf::RenderWindow &window, Terminal &terminal) {
     glDisable(GL_LIGHTING);
     glEnable(GL_TEXTURE_2D);   
     glClearColor(0.2f,0.2f,0.2f, 1.0f);   
-	
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+
     //Opengl led cube and view cube 
     ViewCube view_cube;
     view_cube.setup();
@@ -145,7 +147,7 @@ void renderThread(sf::RenderWindow &window, Terminal &terminal) {
         window.display();
 
 	   //Help with vertical sync
-	   std::this_thread::sleep_for(std::chrono::milliseconds(5));
+	   //std::this_thread::sleep_for(std::chrono::milliseconds(5));
     }
 
     //Time stastictics
