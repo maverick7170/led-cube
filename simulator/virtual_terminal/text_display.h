@@ -66,7 +66,7 @@ public:
 	TextDisplay(sf::RenderWindow &window, sf::Font &font_, int font_size_) : font(font_), 
 																			 font_size(font_size_),  
 																			 cursor_height(font_size/2) {
-																			 	
+
 		Projection = glm::ortho(0.0f, static_cast<float>(window.getSize().x), 0.0f, static_cast<float>(window.getSize().y), -1.f, 100.f);
 		max_line_length = window.getSize().x/font_size*2;
 		overlay[4] = window.getSize().y*0.325;
@@ -94,7 +94,7 @@ public:
 		sf::Texture::bind(&font.getTexture(font_size));
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
   		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-  		float color[] = { 0.0f, 1.0f, 0.0f, 0.5f };
+  		float color[] = { 0.2f, 0.2f, 0.2f, 0.5f };
 		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, color);
 
 		this->load_glyphs();

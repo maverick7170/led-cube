@@ -200,9 +200,11 @@ int main(int , char** ) {
                     terminal.insert(key);
                 }
             }
-            //Allow thread to sleep
-            std::this_thread::sleep_for(std::chrono::milliseconds(30));
         }
+        //Allow thread to sleep
+        if (window_is_running) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        }        
     }
 
     //Wait for threads to finish and close out
