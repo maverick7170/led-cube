@@ -25,16 +25,16 @@
 #endif
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
-#include <iostream>
-#include <vector>
+#include <atomic>
+#include <chrono>
 #include <cmath>
 #include <fstream>
+#include <iostream>
+#include <mutex>
 #include <sstream>
 #include <string>
 #include <thread>
-#include <chrono>
-#include <mutex>
-#include <atomic>
+#include <vector>
 
 #include "virtual_terminal/py.h"
 #include "virtual_terminal/terminal.h"
@@ -66,7 +66,7 @@ std::atomic<double> RENDER_STATE_DATA[6] = {0,0,0,0,0,0};
 ////////////////////////////////////////////////////////////
 void renderThread(sf::RenderWindow &window, Terminal &terminal);
 void udpThread();
-std::string resourcePath(void);
+std::string resourcePath();
 void CreateFontASCII(sf::Font &font, int font_size, std::string font_filename);
 
 
@@ -215,7 +215,7 @@ int main(int , char** ) {
     return 0;
 }	
 
-void CreateFontASCII(sf::Font &font, const int font_size, const std::string font_filename) {
+void CreateFontASCII(sf::Font &font, const int font_size, std::string font_filename) {
     if (!font.loadFromFile(font_filename)) { return; }
     sf::RenderTexture w; w.create(800,800);
     w.setActive(true);

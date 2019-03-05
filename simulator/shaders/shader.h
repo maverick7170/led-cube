@@ -47,7 +47,7 @@ public:
     /// \return type
     ///
     //////////////////////////////////////////////////////////// 
-    void createShader(std::string vertex, std::string frag) {
+    void createShader(const std::string &vertex, const std::string &frag) {
         GLchar infoLog[INFOLOG_LEN];
         GLint vertexShader = loadShaderFromFile(GL_VERTEX_SHADER, vertex);
         GLint fragmentShader = loadShaderFromFile(GL_FRAGMENT_SHADER, frag);
@@ -97,7 +97,7 @@ public:
     /// \return type
     ///
     //////////////////////////////////////////////////////////// 
-    static GLint loadShaderFromFile(GLint type, std::string filename) {
+    static GLint loadShaderFromFile(GLint type, const std::string &filename) {
         GLchar infoLog[INFOLOG_LEN];
         GLint success, shader = glCreateShader(type);
         std::string all_lines, next_line;

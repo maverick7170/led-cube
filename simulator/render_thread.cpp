@@ -25,14 +25,15 @@
 #endif
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
+#include <atomic>
+#include <chrono>
+#include <future>
 #include <iostream>
 #include <thread>
-#include <chrono>
-#include <atomic>
-#include <future>
 
-#include "opengl/view_cube.h"
+
 #include "opengl/led_cube.h"
+#include "opengl/view_cube.h"
 #include "virtual_terminal/terminal.h"
 
 ////////////////////////////////////////////////////////////
