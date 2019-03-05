@@ -63,13 +63,16 @@ public:
     /// \return type
     ///
     //////////////////////////////////////////////////////////// 	
-	TextDisplay(sf::RenderWindow &window, sf::Font &font_, int font_size_) :  
-																			 font(font_), 
+	TextDisplay(sf::RenderWindow &window, sf::Font &font_, int font_size_) : font(font_), 
 																			 font_size(font_size_),  
 																			 cursor_height(font_size/2) {
+																			 	
 		Projection = glm::ortho(0.0f, static_cast<float>(window.getSize().x), 0.0f, static_cast<float>(window.getSize().y), -1.f, 100.f);
 		max_line_length = window.getSize().x/font_size*2;
-		
+		overlay[4] = window.getSize().y*0.325;
+		overlay[6] = window.getSize().x;
+		overlay[7] = window.getSize().y*0.325;
+		overlay[9] = window.getSize().x;
 		auto g = font.getGlyph('a', font_size, false);
 		character_width = g.advance;
 		character_height = character_width*1.2f;
@@ -91,8 +94,8 @@ public:
 		sf::Texture::bind(&font.getTexture(font_size));
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
   		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-  		//float color[] = { 1.0f, 0.0f, 0.0f, 0.5f };
-		//glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, color);
+  		float color[] = { 0.0f, 1.0f, 0.0f, 0.5f };
+		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, color);
 
 		this->load_glyphs();
         this->setup_vao();
@@ -244,8 +247,10 @@ private:
 	GLuint vao;
 	GLuint vbo[3];
 	std::vector<GLushort> indices;
-	std::vector<GLfloat> texture, vertices, overlay = {0,0,-1, 0.,100,-1, 100,100,-1, 100,0,-1},
-				 		 tex_border = {2,2, 2,4, 4,4, 4,2},
+	std::vector<GLfloat> texture, vertices, 
+						 overlay = {0,0,-1, 0.,100,-1, 100,100,-1, 100,0,-1},
+				 		 //tex_border = {2,2, 2,4, 4,4, 4,2},
+				 		 tex_border = {0,0, 0,0, 0,0, 0,0},
 						 tex_white = {0,0, 0,0, 0,0, 0,0};
 	TextHandler all_text[127];
 	glm::mat4 Projection;

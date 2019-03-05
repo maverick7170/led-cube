@@ -29,6 +29,7 @@
 #include <thread>
 #include <chrono>
 #include <atomic>
+#include <future>
 
 #include "opengl/view_cube.h"
 #include "opengl/led_cube.h"
@@ -39,9 +40,16 @@
 ////////////////////////////////////////////////////////////
 extern std::atomic<bool> window_is_running;
 extern std::atomic<uint8_t> RENDER_STATE_CHANGES;
-extern std::mutex mtx_window, mtx_data, mtx_terminal;
-extern double RENDER_STATE_DATA[6];
+extern std::mutex mtx_window;
+extern std::atomic<double> RENDER_STATE_DATA[6];
+
+////////////////////////////////////////////////////////////
+// LED Global between renderer and udp
+////////////////////////////////////////////////////////////
 extern std::vector<GLfloat> *led_color;
+extern std::promise<void> led_color_ready;
+std::vector<GLfloat> *led_color = nullptr;
+std::promise<void> led_color_ready;
 
 ////////////////////////////////////////////////////////////
 // Handle rendering and user input seperately
@@ -72,10 +80,11 @@ void renderThread(sf::RenderWindow &window, Terminal &terminal) {
     LEDCube led_cube;
     led_cube.setup();
     led_color = led_cube.get_colors_ptr();
+    led_color_ready.set_value();
 
     //Bookkeeping
     double window_size_x = window.getSize().x, window_size_y = window.getSize().y;
-    double window_ratio = static_cast<double>(window_size_x) / window_size_y;
+    //double window_ratio = static_cast<double>(window_size_x) / window_size_y;
     size_t iterations = 0;
     sf::Clock clock;
 
@@ -84,40 +93,38 @@ void renderThread(sf::RenderWindow &window, Terminal &terminal) {
 
         //Reset
         if ( RENDER_STATE_CHANGES & 0x1) {
-            std::lock_guard<std::mutex> lock(mtx_data);
             led_cube.resetView();
             view_cube.resetView();
             RENDER_STATE_CHANGES &= ~(0x1);
         }
 
         //Rotate
-        if ( (RENDER_STATE_CHANGES >> 1) & 0x1) {
-            std::lock_guard<std::mutex> lock(mtx_data);
+        //if ( (RENDER_STATE_CHANGES >> 1) & 0x1) {
+        if (RENDER_STATE_CHANGES  & 0x2) {
             led_cube.rotate(RENDER_STATE_DATA[1],RENDER_STATE_DATA[2],RENDER_STATE_DATA[3]);
             view_cube.rotate(RENDER_STATE_DATA[1],RENDER_STATE_DATA[2],RENDER_STATE_DATA[3]);
             RENDER_STATE_CHANGES &= ~(0x2); 
         }
 
         //Scale
-        if ( (RENDER_STATE_CHANGES >> 2) & 0x1) {
-            std::lock_guard<std::mutex> lock(mtx_data);
+        //if ( (RENDER_STATE_CHANGES >> 2) & 0x1) {
+        if (RENDER_STATE_CHANGES & 0x4) {    
             led_cube.scale(RENDER_STATE_DATA[0]);
             RENDER_STATE_CHANGES &= ~(0x4);
         }		
 
         //Update trigger from udp
-        if ( (RENDER_STATE_CHANGES >> 3) & 0x1) {
-            std::lock_guard<std::mutex> lock(mtx_data);
+        //if ( (RENDER_STATE_CHANGES >> 3) & 0x1) {
+        if (RENDER_STATE_CHANGES & 0x8) {            
             led_cube.update();
             RENDER_STATE_CHANGES &= ~(0x8);
         }   
 
         //Window size change
         if ( (RENDER_STATE_CHANGES >> 4) & 0x1 ) {
-            std::lock_guard<std::mutex> lock(mtx_data);
             window_size_x = RENDER_STATE_DATA[4]; 
             window_size_y = RENDER_STATE_DATA[5];
-            window_ratio = static_cast<double>(window_size_x) / window_size_y;
+            //window_ratio = static_cast<double>(window_size_x) / window_size_y;
             RENDER_STATE_CHANGES &= ~(0x10);      
         }
 
@@ -136,10 +143,7 @@ void renderThread(sf::RenderWindow &window, Terminal &terminal) {
 
         //Draw terminal last as text overlay at the bottom of the screen
         glViewport(0, 0, window_size_x, window_size_y);
-        {
-            std::lock_guard<std::mutex> lock(mtx_terminal);
-            terminal.draw(window_size_y*0.3);  
-        }      
+        terminal.draw(window_size_y*0.3);        
 
         //Update overall display: ~2.1 ms on OSX with just display (disable display scaling)
         ++iterations;
@@ -147,7 +151,7 @@ void renderThread(sf::RenderWindow &window, Terminal &terminal) {
         window.display();
 
 	   //Help with vertical sync
-	   //std::this_thread::sleep_for(std::chrono::milliseconds(5));
+	   std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 
     //Time stastictics

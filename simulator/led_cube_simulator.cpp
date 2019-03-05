@@ -45,18 +45,21 @@
 #endif
 
 ////////////////////////////////////////////////////////////
-// Globals
+// Extern
 ////////////////////////////////////////////////////////////
 extern std::atomic<bool> window_is_running;
 extern std::atomic<uint8_t> RENDER_STATE_CHANGES;
-extern std::mutex mtx_window, mtx_data, mtx_terminal;
-extern double RENDER_STATE_DATA[6];
-extern std::vector<GLfloat> *led_color;
+extern std::mutex mtx_window;
+extern std::atomic<double> RENDER_STATE_DATA[6];
+
+
+////////////////////////////////////////////////////////////
+// Globals
+////////////////////////////////////////////////////////////
 std::atomic<bool> window_is_running(true);
 std::atomic<uint8_t> RENDER_STATE_CHANGES(0);
-std::mutex mtx_window, mtx_data, mtx_terminal;
-double RENDER_STATE_DATA[6] = {0,0,0,0,0,0};
-std::vector<GLfloat> *led_color = nullptr;
+std::mutex mtx_window;
+std::atomic<double> RENDER_STATE_DATA[6] = {0,0,0,0,0,0};
 
 ////////////////////////////////////////////////////////////
 // Forward Declerations
@@ -64,13 +67,13 @@ std::vector<GLfloat> *led_color = nullptr;
 void renderThread(sf::RenderWindow &window, Terminal &terminal);
 void udpThread();
 std::string resourcePath(void);
-void CreateFontASCII(sf::Font &font, const int font_size, std::string font_filename);
+void CreateFontASCII(sf::Font &font, int font_size, std::string font_filename);
 
 
 ////////////////////////////////////////////////////////////
 // Entry point of application
 ////////////////////////////////////////////////////////////
-int main(int argc, char* argv[]) {	
+int main(int , char** ) {	
     #ifdef UNIX
     XInitThreads();
     #endif
@@ -94,10 +97,10 @@ int main(int argc, char* argv[]) {
     contextSettings.stencilBits = 8;
     contextSettings.antialiasingLevel = 4;
     contextSettings.majorVersion = 4;
-    contextSettings.minorVersion = 6;
+    contextSettings.minorVersion = 5;
     contextSettings.attributeFlags = sf::ContextSettings::Core;
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "LED Cube Simulator", sf::Style::Default, contextSettings);
-    //window.setVerticalSyncEnabled(true);
+    window.setVerticalSyncEnabled(true);
     
     //Initialize glew if needed
     #ifdef USE_GLEW
@@ -139,26 +142,23 @@ int main(int argc, char* argv[]) {
                 events.push_back(next_event);
             }
         }
-        for (auto &event : events) {
+        for (const auto &event : events) {
             if (event.type == sf::Event::Closed) { 
                 window_is_running = false;
                 break;
             } else if (event.type == sf::Event::Resized) {
-                std::lock_guard<std::mutex> lock(mtx_data);
                 RENDER_STATE_DATA[4] = window.getSize().x;
                 RENDER_STATE_DATA[5] = window.getSize().y;
                 RENDER_STATE_CHANGES |= 0x10;
             } else if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Right) {
                     if ( (ticker.getElapsedTime()-last_click_time).asMilliseconds() < 250 ) {
-                        std::lock_guard<std::mutex> lock(mtx_data);
                         RENDER_STATE_CHANGES |= 0x1;
                     } else {
                         last_click_time = ticker.getElapsedTime();
                     }
                 }
-            } else if ( event.type == sf::Event::MouseWheelScrolled ) {
-                std::lock_guard<std::mutex> lock(mtx_data);           
+            } else if ( event.type == sf::Event::MouseWheelScrolled ) {         
                 RENDER_STATE_DATA[0] = event.mouseWheelScroll.delta;
                 RENDER_STATE_CHANGES |= 0x4;
             } else if ( event.type == sf::Event::MouseMoved ) {
@@ -169,7 +169,6 @@ int main(int argc, char* argv[]) {
                         double dy = mouse_position.y - last_mouse_position.y;
                         double mag = sqrt(dx*dx + dy*dy);
                         if (fabs(mag) > 0 && fabs(mag) <= 100) { 
-                            std::lock_guard<std::mutex> lock(mtx_data);
                             RENDER_STATE_DATA[1] = dx;
                             RENDER_STATE_DATA[2] = dy;
                             RENDER_STATE_DATA[3] = mag;
@@ -179,7 +178,6 @@ int main(int argc, char* argv[]) {
                     last_mouse_position = mouse_position;
                 }
             } else if (event.type == sf::Event::KeyPressed) {
-                std::lock_guard<std::mutex> lock(mtx_terminal);
                 if (event.key.code == sf::Keyboard::Left) {
                     terminal.cursor_left();
                 } else if (event.key.code == sf::Keyboard::Right) {
@@ -192,7 +190,6 @@ int main(int argc, char* argv[]) {
             } else if (event.type == sf::Event::TextEntered) {
                 auto key = event.text.unicode;
                 last_key_time = ticker.getElapsedTime();
-                std::lock_guard<std::mutex> lock(mtx_terminal);
                 if (key == 8) {
                     terminal.erase();
                 } else if (key == 10 || key == 13) {
@@ -204,7 +201,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             //Allow thread to sleep
-            std::this_thread::sleep_for(std::chrono::milliseconds(15));
+            std::this_thread::sleep_for(std::chrono::milliseconds(30));
         }
     }
 
@@ -216,7 +213,7 @@ int main(int argc, char* argv[]) {
     return 0;
 }	
 
-void CreateFontASCII(sf::Font &font, const int font_size, std::string font_filename) {
+void CreateFontASCII(sf::Font &font, const int font_size, const std::string font_filename) {
     if (!font.loadFromFile(font_filename)) { return; }
     sf::RenderTexture w; w.create(800,800);
     w.setActive(true);

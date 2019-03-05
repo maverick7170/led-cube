@@ -26,14 +26,19 @@
 #include <chrono>
 #include <atomic>
 #include <mutex>
+#include <future>
 
 ////////////////////////////////////////////////////////////
 // Globals
 ////////////////////////////////////////////////////////////
 extern std::atomic<bool> window_is_running;
 extern std::atomic<uint8_t> RENDER_STATE_CHANGES;
+
+////////////////////////////////////////////////////////////
+// LED Global between renderer and udp
+////////////////////////////////////////////////////////////
 extern std::vector<GLfloat> *led_color;
-extern std::mutex mtx_data;
+extern std::promise<void> led_color_ready;
 
 ////////////////////////////////////////////////////////////
 // Handle any udp packets seperately from rendering and user input
@@ -46,9 +51,7 @@ void udpThread() {
     std::vector<uint8_t> server_msg(5000,0);
 
     //Wait for valid led pointer
-    while ( led_color == nullptr && window_is_running ) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(25));
-    }
+    led_color_ready.get_future().wait();
 
     //Process any UDP packets until there are non waiting
     while (window_is_running) {
@@ -74,7 +77,7 @@ void udpThread() {
             if (length == bytes_read) {
                 for (int ii = 7,cnt=0; ii < length; ii+=3,++cnt) {
                     for(int jj = 0; jj < 4; ++jj) {
-                        std::lock_guard<std::mutex> lock(mtx_data);
+                        //std::lock_guard<std::mutex> lock(mtx_data);
                         (*led_color)[ row*64*6*16 + cnt*16 + offset*16 + jj*4] = server_msg[ii]/255.f; 
                         (*led_color)[ row*64*6*16 + cnt*16 + offset*16 + jj*4+1] = server_msg[ii+1]/255.f;
                         (*led_color)[ row*64*6*16 + cnt*16 + offset*16 + jj*4+2] = server_msg[ii+2]/255.f;

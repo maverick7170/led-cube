@@ -22,6 +22,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <mutex>
 #include <vector>
 #include <string>
 #include "text_display.h"
@@ -54,6 +55,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////	
 	void new_line() {
+        std::lock_guard<std::mutex> lock(mtx_terminal);
 		lines.push_back(">>> ");
 	}
 
@@ -66,6 +68,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////		
 	void cursor_left() {
+        std::lock_guard<std::mutex> lock(mtx_terminal);
 		if ( cursor_index < lines[last_row].size()-4) { ++cursor_index; }
 	}
 
@@ -78,6 +81,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////		
 	void cursor_right() {
+        std::lock_guard<std::mutex> lock(mtx_terminal);
 		if (cursor_index) { --cursor_index; }	
 	}
 
@@ -90,6 +94,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////		
 	void history_back() {
+        std::lock_guard<std::mutex> lock(mtx_terminal);
 		for (int ii = history_index-1; ii >= 0; --ii) {
 			if (lines[ii].substr(0,3) == ">>>" || lines[ii].substr(0,3) == "...") {
 				history_index = ii;
@@ -108,6 +113,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////		
 	void history_forward() {
+        std::lock_guard<std::mutex> lock(mtx_terminal);
 		if (history_index >= last_row) { return; }
 		for (auto ii = history_index+1; ii <= last_row; ++ii) {
 			if (lines[ii].substr(0,3) == ">>>" || lines[ii].substr(0,3) == "...") {
@@ -127,6 +133,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////		
 	void erase() {
+        std::lock_guard<std::mutex> lock(mtx_terminal);
 		if (lines[last_row].size() > 4) {
 			lines[last_row].erase(lines[last_row].size()-1-cursor_index,1);
         }		
@@ -141,6 +148,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////		
 	void insert(char key) {
+        std::lock_guard<std::mutex> lock(mtx_terminal);
         if (lines[last_row].size() <= max_line_length) {
 		  lines[last_row].insert( lines[last_row].size()-cursor_index,std::string(1,key) );
         }
@@ -155,6 +163,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     void tab_complete() {
+        std::lock_guard<std::mutex> lock(mtx_terminal);
         if (lines[last_row].size() <= 4) { return; }
         std::string y = lines[last_row].substr(4);
         std::string x = "x,y,z=TabCompleteNames('" + y + "')\n"
@@ -197,6 +206,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////		
 	void run() {
+        std::lock_guard<std::mutex> lock(mtx_terminal);
 		if (lines[last_row].size() <= 4) { return; }
 		std::string x = lines[last_row].substr(4);
 		if ( x[x.size()-1] == ':') {
@@ -215,7 +225,7 @@ public:
 			}
 			std::vector<std::string> output = Py::run(x);
 			for  (auto o : output) { 
-                for (auto kk = 0; kk < o.size(); kk += 70) {
+                for (auto kk = 0u; kk < o.size(); kk += 70) {
 				    lines.push_back(o.substr(kk,70));
                 }
 			}
@@ -236,6 +246,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////    
     void draw(float y) {
+        std::lock_guard<std::mutex> lock(mtx_terminal);
         for (auto ii = 0; ii < 8; ++ii,y-=vertical_line_gap) {
             if (ii + scroll_index >= lines.size()) {
                 break;
@@ -255,6 +266,7 @@ public:
 	std::string compound_command = "";
     TextDisplay display;
     size_t max_line_length, vertical_line_gap;
+    std::mutex mtx_terminal;
 };
 
 #endif
